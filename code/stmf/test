@@ -1,0 +1,4 @@
+z=0  lgm1=6  lgm2=15  nm=1000
+omega_m=0.28  omega_l=0.72  omega_b=0.0462
+h=0.7  sigma_8=0.817  ns=0.96
+verbose=1  outfile=stmf.txt

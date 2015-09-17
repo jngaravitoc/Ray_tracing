@@ -1,0 +1,47 @@
+#Makefile variables specific to lamancha
+
+#Machine
+MACHINE = gaira
+
+#Fortran compilers
+FC = g77
+
+#C compilers
+GCC = gcc
+ICC = gcc
+CC = $(GCC)
+
+#Optimization
+#%% GCCFAST = -fast -mcpu=7450 -mtune=7450
+GCCFAST =  -lm -g
+
+
+ICCFAST = $(GCCFAST)
+FAST = $(GCCFAST)
+
+#Numerical Recipes C headers and library
+NUMRECI = 
+NUMRECL = #-lrecipes_c
+
+#Math library
+GCCMATHL = -lm
+ICCMATHL = -lm
+
+#Complex math (required for FFTW3 on Mac OS X)
+CMPLXL = -lmx
+
+#FFTW (double and float)
+FFTW3I = -I/usr/local/include
+FFTW3L = -L/usr/local/lib
+FFTW3LIB = -lfftw3f
+
+#GSL
+
+
+#MPI
+
+
+#OPENMP
+OMPFLAGS = 
+OMPL = 
+OMPLIB =

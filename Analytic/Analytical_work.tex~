@@ -1,0 +1,127 @@
+\documentclass[12pt]{article}
+\usepackage[hmargin=2.0cm,vmargin=1cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{cite}
+\usepackage{natbib}
+\usepackage{amsmath}
+
+\title{\begin{LARGE}
+{The effect of the environment of LAEs at $z\sim 6$}
+\end{LARGE}}
+
+\begin{document}
+\maketitle
+
+\section{Constants:}
+
+In this section we define the constants used in this work.
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{c c c c}
+\hline
+Constant name & Symbol & Value & Units \\
+\hline
+\hline
+Boltzmann  & $k_B$ & $1.3806488\times 10^-{23}$ & $[J/K]$ \\ 
+Gravitational & $G$ & $6.67384\times 10^{-11}$ & $[\dfrac{m^3}{Kgs^2}]$\\
+Mean molecular weight &$\mu_n$ & $0.59$ & $-$ \\
+Proton mass & $m_p$ & $1.672621777\times 10^{-27}$ & [kg] \\
+Slope parameter & $\beta$ & $0.4$ & $-$ \\
+Matter density & $\Omega_m$ & $0.3089$ & $-$ \\ 
+Barions density & $\Omega_B$ & $ 0.0455102$ & $-$ \\
+Dark energy density & $\Omega_{\Lambda}$ & $0.6911$ & $-$ \\
+Spatial curvature density& $\Omega_{k} $ & $-0.0023$ & $-$ \\
+Hubble parameter & $H_0$ & $7.11449538303\times 10^{-41}$& $[1/s]$ \\
+Solar mass &  $M_{\odot} $ & $1.9891\times 10^{30}$  & [kg] \\ 
+%$m_p$
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\section{Gas density profile:}
+
+Makino et al (1997) found an analytical expresion (Eq.8 in that paper) for the gas profile assuming that the gas
+is isothermal and it is inside a DM halo with a NFW profile. They argue that this equation it's well approximated by 
+the following profile:
+
+\begin{equation}\label{eq:rhogr}
+\rho_g(r) =  \dfrac{\rho_{g,0}A}{\left[ 1 + \left(\dfrac{r}{r_{c,eff}}\right)^2 \right]^{3\beta_{eff}/2}}
+\end{equation}
+
+Where $A(b) = -0.178b + 0.982$ and $\beta_{eff} = 0.9 b$\\
+
+In order to compute $\rho_{g,0}$ we used Eq.14 in that paper:
+
+\begin{equation}\label{eq:rhog0}
+\rho_{g0} = \dfrac{f_{gas}\Omega_{b}\rho_{c0}\delta_{c}}{\Omega_0}e^{27b/2} \left [ Ln(1+c) - \dfrac{c}{1+c}  \right ] \left [ \int_0^c x^2(1+x)^{27b/2x} dx \right ]
+\end{equation}
+
+For a concentration parameter of $c = 3.75$ at $z=0$ the
+ $\rho_{g,0} = 1.47\times 10^{-15} \dfrac{M_{\odot}}{Kpc^3}$
+
+\section{Column density derivation:}
+
+In order to compute the column density of the gas profiles, we first 
+make an integral over the $z$ axys of the gas profile to get $N_{H}$i.e:
+
+\begin{equation}
+N_{H} = \int \limits_{-\infty}^{\infty}\rho_g(r)dz
+\end{equation}
+
+Where $r^2 = z^2 + b'^2$ and $b'$ is the impact parameter.
+Changing variables from $z$ to $r$ we get: 
+
+\begin{equation}
+N_{H} = \rho_{g0}A \int \limits_{-\infty}^{\infty} \dfrac{dz}{\left 
+[ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}}
+= \rho_{g0}A \int \limits_{b}^{\infty}\dfrac{r}{\sqrt{r^2 - b'^2}}\dfrac{dr}
+{\left [ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}} 
+\end{equation}
+
+The result of the integral is:
+
+\begin{equation}
+N_{H} = \rho_{g0} A\dfrac{\sqrt{\pi} (\dfrac{1}{r_c(M_h)^2})^{-3\beta_{eff}(M_h) /2} (b'^2 + r_c(M_h)^2)^{1/2 - 3\beta_{eff}(M_h)/2} \Gamma(-1/2 + 3\beta_{eff}/2) }{2 \Gamma(\dfrac{3\beta_{eff}(M_h)}{2})}  
+\end{equation}
+
+The $N_H$ for all the halo masses and for all the impact parameters would 
+be defined as:
+
+\begin{equation}\label{eq:integral}
+<N_H> = 4 \int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy \int 
+\limits_{M_{Hmin}}^{M_{Hmax}} N_H(b, M_H)\xi(M_H)dM_H  
+\end{equation}
+
+Where the impact paremeter $b'^2 = x^2  + y^2$ and $M_{Hmin} = 1\times 10^4 
+M_{\odot}$ and $M_{Hmax} = 1\times 10^{12}M_{\odot}$. And $\xi(M_H)= \dfrac{dn}
+{dM_H}$. The dependence with the redshift is in the computation of $r_{vir}$ and
+in the mass function.
+
+In order to evaluate  Eq. \ref{eq:integral} we first make the integral over 
+the mass using the trapezoid method as follows: 
+
+\begin{equation}
+\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H =  \sum_{0}^{1000}\Delta_M \left[ \dfrac{N_H(b, M_{H}+\Delta_M) \xi(M_{H + \Delta_M}) + N_H(b, M_{HM}\xi(M_{H}))}{2}\right]
+\end{equation}
+
+Which can be expressed as:
+
+\begin{equation}
+\begin{split}
+\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H = \sum \limits_{0}^{1000}\Delta_{M} M_{\odot}  \dfrac{\rho_{g0} A(b) \sqrt{\pi} \Gamma(-\dfrac{1}{2} + \dfrac{3\beta}{2})}{4\Gamma{\dfrac{3\beta}{2}}} \\
+\left[ \left( \dfrac{1}{r_c(M_{HMin})^2} \right)^{-3\beta/2} (b^2 + r_c(M_{Hmin})^2)^{1/2 - 3\beta/2} \xi(M_{Hmax})+ \\
+ \left( \dfrac{1}{r_c(M_{HMax})^2} \right)^{-3\beta/2}(b^2 + r_c(M_{Hmax})^2)^{1/2 - 3\beta/2}\xi(M_{Hmin}) \right] 
+\end{split}
+\end{equation}
+
+The average column density of a ray traced in a volume of $1Mpc^3$ at redshift $z=6$ is then given by:
+
+\begin{equation}
+<N_H> = 4 \rho_{g,0}A\int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy N_H(b) db = 4.45\times 10^{-37} \dfrac{g}{cm^3}
+\end{equation}
+
+\end{document}

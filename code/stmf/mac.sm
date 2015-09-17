@@ -1,0 +1,47 @@
+mac	#dummy macro (16384 is the midpoint of the screen coords)
+	define naergtuoha 16384
+
+ml 1	#take log10
+	set lg$1 = lg($1 > 0 ? $1 : 1e-35)
+
+dx	#set device to x11
+	dev x11
+
+eps 1	#set device to postencap
+	device postencap $1
+
+mr 	#reread this file
+	macro read mac.sm
+
+mf 1    #plot mass function
+        data $1
+        lines 4 4
+        read {vz 1 vlgm1 2 vlgm2 3 vnm 4}
+        define z $(vz[0])
+        define lgm1 $(vlgm1[0])
+        define lgm2 $(vlgm2[0])
+        define nm $(vnm[0])
+        lines 5 5
+        read {vom 1 vol 2 vob 3}
+        define om $(vom[0])
+        define ol $(vol[0])
+        define ob $(vob[0])
+        lines 6 6
+        read {vh 1 vsig8 2 vns 3}
+        define h $(vh[0])
+        define sig8 $(vsig8[0])
+        define ns $(vns[0])
+        lines 7 0
+        read {im 1 lgm 2 m 3 mdndm 4}
+        ml mdndm
+        expand 1.5
+        erase
+        limits $lgm1 $lgm2 -7 7
+        notation -1 1 -1 1
+        ticksize -1 10 -1 10
+        box
+        xlabel {\bf log_{10} M [M_\odot]}
+        ylabel {\bf log_{10} M dn/dM [Mpc^{-3}]}
+        expand 1
+        connect lgm lgmdndm
+        ticksize 0 0 0 0

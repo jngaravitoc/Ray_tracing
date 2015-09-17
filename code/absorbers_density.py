@@ -23,7 +23,7 @@ env = int(sys.argv[5])
 # N = number of emmiters
 # M = number of traced rays in a radom direction
 
-halos = np.loadtxt("../data/" + data)
+halos = np.loadtxt("../../" + data)
 h = 0.7
 ids = halos[:,0]
 x = halos[:,1] 
@@ -60,7 +60,7 @@ def host_halos(M, x, y, z, ids):
 	D3_mean.append(D3[2])
     return id_hh, x_hh, y_hh, z_hh, np.mean(D3_mean)
 
-# Finding a random emmiter hal, env):
+# Finding a random emmiter halo and its environment \Delta_3:
 
 def random_halo(id_hh, x, y, z, env, D3):
     N = len(id_hh)
@@ -111,7 +111,8 @@ def random_direction(x, y, z, r):
     y_out = y + y_end
     z_out = z + z_end
     return x_out, y_out, z_out
-# 
+
+#Computing the impact parameter of the halos to indentify the abosorbers 
 
 def impact_parameter(id_cube, x, y, z, L, x_in, y_in, z_in, R, M, x_out, y_out, z_out):
     d = np.sqrt((x - x_in)**2 + (y - y_in)**2 + (z - z_in)**2)
@@ -133,10 +134,11 @@ def impact_parameter(id_cube, x, y, z, L, x_in, y_in, z_in, R, M, x_out, y_out, 
     rho =  M_abs / Vol
     return b_abs, x_abs, y_abs, z_abs, R_abs, M_abs, id_abs
 
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #                                                   Gas Density 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 def H(z, Omega0, H_0):
     Lambda0 = 1. - Omega0
     return H_0*(Omega0*(1+z)**3 - (Omega0+Lambda0-1)*(1+z)**2 + Lambda0)**0.5
@@ -219,16 +221,13 @@ def tvir(M, z):
 
 idsh, x_hh, y_hh, z_hh, D3_mean = host_halos(M, x, y, z, ids)
 
-#print "#emmiter ID, absorbers ID, impact parameter(kpc), Rvir(kpc), NH(1/cm2)"
 print "#emmiter ID, Delta3. Kpc, Total NH(1/cm2), NHI(1/cm2)"
-
 
 for i in range(N):
 	x_in, y_in, z_in, id_in, D_env = random_halo(idsh, x_hh, y_hh, z_hh, env, D3_mean)
 	x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, P, x, y, z, R, M, ids)
 	NHT = []
 	NHI = []
-	
 	for j in range(K):
 		x_out, y_out, z_out = random_direction(x_in, y_in, z_in, P)
 		babs, xabs, yabs, zabs, R_abs, M_abs, ids_abs = impact_parameter(ids_cube, x_cube, y_cube, z_cube, P, x_in, y_in, z_in, R_cube, M_cube, x_out , y_out, z_out)
@@ -237,22 +236,19 @@ for i in range(N):
 		B = np.zeros(len(NH))
 		C = np.zeros(len(NH))
   		E = np.zeros(len(NH))
-		#print M_abs
-		#print M_abs*1e10
 		T = tvir(M_abs*1e10, Z)
-		#print T
-		
+				
 		for k in range(len(A)):
 			A[k], B[k], C[k] = ABC(T[k], GUVB, NH[k], NSSH )
     			E[k] = Eta(A[k], B[k], C[k])
 			#rint E[k], A[k], B[k], C[k], NH[k], E[k]*NH[k]
 			#print E[k]
-		
+		# Some times photons dont interact with halos
 		if (NH.sum() > 0):
 			NHT.append(NH.sum())
 			NHI.append(np.sum(E*NH))
 
 	for i in range(len(NHT)):
 		print  int(id_in), D_env, NHT[i], NHI[i]
-	        #print int(id_in), D_env, NH
+	        
 

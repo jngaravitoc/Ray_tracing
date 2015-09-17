@@ -1,0 +1,85 @@
+/tmp/ccBxoTcf.o: In function `main':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/stmf.c:183: undefined reference to `powf'
+/tmp/ccLHpfbW.o: In function `powerk':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:72: undefined reference to `pow'
+/tmp/ccLHpfbW.o: In function `sigma2':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:92: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:93: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:98: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:146: undefined reference to `log'
+/tmp/ccLHpfbW.o: In function `dsigtopdlnk':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:193: undefined reference to `expf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:208: undefined reference to `cosf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:208: undefined reference to `sinf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:216: undefined reference to `powf'
+/tmp/ccLHpfbW.o: In function `mdsigma2dm':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:237: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:238: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:243: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:291: undefined reference to `log'
+/tmp/ccLHpfbW.o: In function `ddsigtopdmdlnk':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:342: undefined reference to `expf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:357: undefined reference to `cosf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:358: undefined reference to `sinf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/sigma2.c:367: undefined reference to `powf'
+/tmp/ccPdDxhD.o: In function `TFset_parameters':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:92: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:92: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:93: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:94: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:94: undefined reference to `pow'
+/tmp/ccPdDxhD.o:/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:95: more undefined references to `pow' follow
+/tmp/ccPdDxhD.o: In function `TFset_parameters':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:100: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:101: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:101: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:101: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:101: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:103: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:103: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:103: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:105: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:105: undefined reference to `pow'
+/tmp/ccPdDxhD.o:/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:106: more undefined references to `pow' follow
+/tmp/ccPdDxhD.o: In function `TFset_parameters':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:116: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:116: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:116: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:116: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:117: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:119: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:120: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:120: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:123: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:123: undefined reference to `pow'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:123: undefined reference to `sqrt'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:125: undefined reference to `log'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:125: undefined reference to `log'
+/tmp/ccPdDxhD.o: In function `TFfit_onek':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:205: undefined reference to `logf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:206: undefined reference to `logf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:207: undefined reference to `powf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:220: undefined reference to `powf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:228: undefined reference to `sinf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:229: undefined reference to `powf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/mrseishu.c:229: undefined reference to `expf'
+/tmp/cc2eVLO1.o: In function `sigma_pp':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:30: undefined reference to `powf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:34: undefined reference to `sqrtf'
+/tmp/cc2eVLO1.o: In function `stmdndm':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:57: undefined reference to `powf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:61: undefined reference to `sqrtf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:68: undefined reference to `powf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:68: undefined reference to `expf'
+/tmp/cc2eVLO1.o: In function `psmdndm':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:93: undefined reference to `powf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:97: undefined reference to `sqrtf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/massfunc.c:102: undefined reference to `expf'
+/tmp/ccJslCdJ.o: In function `dlina':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/growth.c:28: undefined reference to `sqrt'
+/tmp/ccJslCdJ.o: In function `inva3h3':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/growth.c:43: undefined reference to `sqrt'
+/tmp/ccSPQCHq.o: In function `stbias':
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/bias.c:42: undefined reference to `powf'
+/home/jngaravito57/Dropbox/LyAlpha_absorbers/code/stmf/bias.c:51: undefined reference to `powf'
+collect2: error: ld returned 1 exit status

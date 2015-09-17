@@ -1,0 +1,2 @@
+gcc -g  stmf.c sigma2.c mrseishu.c mrsromb.c massfunc.c growth.c bias.c -lm -o stmf
+
