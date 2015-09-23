@@ -166,10 +166,18 @@ def rho_g0(zform): #g/cm3
     rho_c = 3*H_0**2 / (8.*np.pi*G)
     c = 3.75
     #zform = 6.
-    d_c = 3000.0 * Omega_m * (1 + zform)**3
+    d_c = 3000.0 * Omega_m * (1 + zform)**3 # Check this d_c
     #d_c = 200/3. * (c**3 / (log(1 + c) - c/(1+c)))
     return ( ( (f_gas * d_c * rho_c * Omega_b) / Omega_m ) * np.exp(27. * b / 2.) * (np.log(1+c) - c/(1+c)) )  /  integral(c)
 
+# see eq 10 of the document
+def rho(r, z):
+    c = 3.75
+    r_s = r_vir/c
+    mp =  1.67262158E-24
+    rrho = rho_g0(z) * e**(-27*b/2.) * (1 + (r/r_s))**(27*b/(2*r/r_s))
+    nh = rrho / mp 
+    return rrho, nh 
 
 def nh(rvir, B):
     rho = rho_g0(6)#gm/cm3
@@ -184,6 +192,8 @@ def nh(rvir, B):
     r_c =  rvir / c 
     NH = (np.sqrt(np.pi)*(1/r_c**2)**(-3*beta/2.) * (B**2+ r_c**2)**(1/2. - 3*beta/2.) * gamma(-0.5 + 3*beta/2.) )/(2*gamma(3*beta/2.))
     return A*NH*rho/mp
+
+
 
 # --------------------------------------------------------------------------------------------------------
 

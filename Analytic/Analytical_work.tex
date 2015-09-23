@@ -42,7 +42,7 @@ Solar mass &  $M_{\odot} $ & $1.9891\times 10^{30}$  & [kg] \\
 \end{center}
 \end{table}
 
-\section{Gas density profile:}
+\section{Gas density profile:}\label{sec:rho}
 
 Makino et al (1997) found an analytical expresion (Eq.8 in that paper) for the gas profile assuming that the gas
 is isothermal and it is inside a DM halo with a NFW profile. They argue that this equation it's well approximated by 
@@ -65,16 +65,79 @@ the gas profile is shown in Fig. \ref{fig:gp}
 
 \begin{figure}\label{fig:gp}
 \centering
-\includegraphics[scale=0.7]{../code/gasprofile.png}
+\includegraphics[scale=0.7]{../figures/gasprofile.png}
 \caption{Gas density profile for a DM  halo of $M = 1E12 M_{\odot}$ at $z=2$ and a concetrarion parameter of $c=3.75$}
 \end{figure} 
 
-\section{Neutral Hydrogen fraction $\eta$:}
+
+\section{Column density derivation:}\label{sec:NH}
+
+In order to compute the column density of the gas profiles, we first
+make an integral over the $z$ axys of the gas profile to get $N_{H}$i.e:
+
+\begin{equation}
+N_{H} = \int \limits_{-\infty}^{\infty}\rho_g(r)dz
+\end{equation}
+
+Where $r^2 = z^2 + b'^2$ and $b'$ is the impact parameter.
+Changing variables from $z$ to $r$ we get:
+
+\begin{equation}
+N_{H} = \rho_{g0}A \int \limits_{-\infty}^{\infty} \dfrac{dz}{\left 
+[ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}}
+= \rho_{g0}A \int \limits_{b}^{\infty}\dfrac{r}{\sqrt{r^2 - b'^2}}\dfrac{dr}
+{\left [ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}} 
+\end{equation}
+
+The result of the integral is:
+
+\begin{equation}\label{eq:NH}
+N_{H} = \rho_{g0} A\dfrac{\sqrt{\pi} (\dfrac{1}{r_c(M_h)^2})^{-3\beta_{eff}(M_h) /2} (b'^2 + r_c(M_h)^2)^{1/2 - 3\beta_{eff}(M_h)/2} \Gamma(-1/2 + 3\beta_{eff}/2) }{2 \Gamma(\dfrac{3\beta_{eff}(M_h)}{2})}  
+\end{equation}
+
+The $N_H$ for all the halo masses and for all the impact parameters would
+be defined as:
+
+\begin{equation}\label{eq:integral}
+<N_H> = 4 \int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy \int 
+\limits_{M_{Hmin}}^{M_{Hmax}} N_H(b, M_H)\xi(M_H)dM_H  
+\end{equation}
+
+Where the impact paremeter $b'^2 = x^2  + y^2$ and $M_{Hmin} = 1\times 10^4 
+M_{\odot}$ and $M_{Hmax} = 1\times 10^{12}M_{\odot}$. And $\xi(M_H)= \dfrac{dn}
+{dM_H}$. The dependence with the redshift is in the computation of $r_{vir}$ and
+in the mass function.
+
+In order to evaluate  Eq. \ref{eq:integral} we first make the integral over
+the mass using the trapezoid method as follows:
+
+\begin{equation}
+\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H =  \sum_{0}^{1000}\Delta_M \left[ \dfrac{N_H(b, M_{H}+\Delta_M) \xi(M_{H + \Delta_M}) + N_H(b, M_{HM}\xi(M_{H}))}{2}\right]
+\end{equation}
+
+Which can be expressed as:
+
+\begin{equation}
+\begin{split}
+\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H = \sum \limits_{0}^{1000}\Delta_{M} M_{\odot}  \dfrac{\rho_{g0} A(b) \sqrt{\pi} \Gamma(-\dfrac{1}{2} + \dfrac{3\beta}{2})}{4\Gamma{\dfrac{3\beta}{2}}} \\
+\left[ \left( \dfrac{1}{r_c(M_{HMin})^2} \right)^{-3\beta/2} (b^2 + r_c(M_{Hmin})^2)^{1/2 - 3\beta/2} \xi(M_{Hmax})+ \\
+ \left( \dfrac{1}{r_c(M_{HMax})^2} \right)^{-3\beta/2}(b^2 + r_c(M_{Hmax})^2)^{1/2 - 3\beta/2}\xi(M_{Hmin}) \right] 
+\end{split}
+\end{equation}
+
+The average column density of a ray traced in a volume of $1Mpc^3$ at redshift $z=6$ is then given by:
+
+\begin{equation}
+<N_H> = 4 \rho_{g,0}A\int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy N_H(b) db = 1.68\times 10^{-42} \dfrac{g}{cm^3}
+\end{equation}
+
+
+\section{Neutral Hydrogen fraction $\eta$:}\label{sec:eta}
 
 Following Rahmati et al 2013, we compute de neutral hydrogen fraction $\eta = n_{HI} / n_H$. We follow
 the procedure implemented in the Appendix A in that paper.\\
 
-\begin{equation}
+\begin{equation}\label{eq:eta}
 \eta = \dfrac{B - \sqrt{B^2 - 4AC}}{2A}
 \end{equation}
 
@@ -113,12 +176,12 @@ while the black line is for $n_H  = 0.001 cm^{-3}$.
 
 \begin{figure}[H]\label{fig:eta}
 \centering
-\includegraphics[scale=0.7]{../code/etavsnh.png}
-\includegraphics[scale=0.7]{../code/etavsT.png}
+\includegraphics[scale=0.7]{../figures/etavsnh.png}
+\includegraphics[scale=0.7]{../figures/etavsT.png}
 \caption{(Up) }
 \end{figure}
 
-\section{Neutral Hydrogen density profile}
+\section{Neutral Hydrogen density profile}\label{sec:NHI}
 
 In ordert to study the effect of the environment in LAEs we are interested in the neutral Hydrogen. 
 To this aim we want to derive the neutral Hydrogen gas profile using Makino's profile alongside 
@@ -129,7 +192,7 @@ this profile is shown in Fig.\ref{fig:nhvsr}.
 
 \begin{figure}[H]\label{fig:nhvsr}
 \centering
-\includegraphics[scale=0.7]{../code/nhvsr.png}
+\includegraphics[scale=0.7]{../figures/nhvsr.png}
 \end{figure} 
 
 With this density $n_H$ we compute the neutral Hydrogen fraction $\eta$ as function of $r$, Fig.\ref{fig:etavsr}
@@ -137,7 +200,7 @@ show the fraction of neutral Hydrogen inside a DM halo of mass $M=10^8 M_{\odot}
 
 \begin{figure}[H]\label{fig:etavsr}
 \centering
-\includegraphics[scale=0.7]{../code/etavsr.png}
+\includegraphics[scale=0.7]{../figures/etavsr.png}
 \end{figure}
 
 With this information we can compute the Neutral Hydrogen profile corresponding to this DM halo by multplying
@@ -145,70 +208,72 @@ $n_{HI}(r) = \eta(r) n_{H}(r)$, this is shown in Fig.\ref{fig:nhivsr}.
 
 \begin{figure}[H]\label{fig:nhivsr}
 \centering
-\includegraphics[scale=0.7]{../code/nhivsr.png}
+\includegraphics[scale=0.7]{../figures/nhivsr.png}
 \end{figure}  
 
 
-\section{Column density derivation:}
+\section{Numerical Approch}
 
-In order to compute the column density of the gas profiles, we first 
-make an integral over the $z$ axys of the gas profile to get $N_{H}$i.e:
+We use the results of a DM only simulation Illustris1 with the aim 
+of studing how the environment affects the absorption of 
+Ly$\alpha$ radiation at $z\sim6$. We chose emitters halos to be 
+those in a range of mass  $7 \times 10^{10} - 2 \times 10^{11}$, this 
+halos have different environments (\textbf{Make a plot of this}).
+We then trace rays of Ly$\alpha$ photons in random dierections, and we derive
+the gas properties of those halos that interact with the ray 
+implementing the equations described in \S \ref{sec:rho}, 
+\S \ref{sec:NH},\S \ref{sec:eta}.\S \ref{sec:NHI}. Then we sum the column 
+density of every Ly$\alpha$ ray. In the following subsections we describe 
+these steps in detail.  
 
-\begin{equation}
-N_{H} = \int \limits_{-\infty}^{\infty}\rho_g(r)dz
-\end{equation}
+\subsection{Dark Matter halo catalogue}
 
-Where $r^2 = z^2 + b'^2$ and $b'$ is the impact parameter.
-Changing variables from $z$ to $r$ we get: 
+We use the public available data from the Illustris simulation, in particular we use 
+the Illustis1-dark catalogue. This is a simulation of $1820^3$ dark matter particles
+with a mass of $m_{DM}=6.3 \times 10^6 M_{\odot}$ in a box of $L=106.5 Mpc$. We use 
+the data of halos at $z = 6.01$. 
 
-\begin{equation}
-N_{H} = \rho_{g0}A \int \limits_{-\infty}^{\infty} \dfrac{dz}{\left 
-[ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}}
-= \rho_{g0}A \int \limits_{b}^{\infty}\dfrac{r}{\sqrt{r^2 - b'^2}}\dfrac{dr}
-{\left [ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}} 
-\end{equation}
+\subsection{Ray tracing}
 
-The result of the integral is:
+We select emitter galaxies in the range of $7 \times 10^{10} - 2 \times 10^{11}$.
+There are N halos in this mass range in the simulation. All these halos
+are in different environmets.  
 
-\begin{equation}
-N_{H} = \rho_{g0} A\dfrac{\sqrt{\pi} (\dfrac{1}{r_c(M_h)^2})^{-3\beta_{eff}(M_h) /2} (b'^2 + r_c(M_h)^2)^{1/2 - 3\beta_{eff}(M_h)/2} \Gamma(-1/2 + 3\beta_{eff}/2) }{2 \Gamma(\dfrac{3\beta_{eff}(M_h)}{2})}  
-\end{equation}
+After selecting randomly an emitter we follow the trayectory of a Ly$\alpha$ photon 
+in a random direction and for ray length of $10 Mpc$. In $10 Mpc$ a Ly$\alpha$ would 
+have a $\Delta_z$ of: 
 
-The $N_H$ for all the halo masses and for all the impact parameters would 
-be defined as:
+We then compute the impact parameter $b$ between the ray and all the halos that could
+possibly absorbe the photons, we select those halos in which the condition $b<R_{vir}$ 
+is ensured, those halos would be the absorbers. 
 
-\begin{equation}\label{eq:integral}
-<N_H> = 4 \int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy \int 
-\limits_{M_{Hmin}}^{M_{Hmax}} N_H(b, M_H)\xi(M_H)dM_H  
-\end{equation}
+\textbf{How many absorbers have each ray, try to visualize this}
 
-Where the impact paremeter $b'^2 = x^2  + y^2$ and $M_{Hmin} = 1\times 10^4 
-M_{\odot}$ and $M_{Hmax} = 1\times 10^{12}M_{\odot}$. And $\xi(M_H)= \dfrac{dn}
-{dM_H}$. The dependence with the redshift is in the computation of $r_{vir}$ and
-in the mass function.
+\subsection{Colulmn density properties and Environment}
 
-In order to evaluate  Eq. \ref{eq:integral} we first make the integral over 
-the mass using the trapezoid method as follows: 
+We compute the density profiles of using Eq.\ref{eq:rhogr}, the
+we compute the column density using Eq.\ref{eq:NH}. Then we compute
+the fraction of neutral column density $n_{HI}$ using Eq.\ref{eq:eta}
 
-\begin{equation}
-\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H =  \sum_{0}^{1000}\Delta_M \left[ \dfrac{N_H(b, M_{H}+\Delta_M) \xi(M_{H + \Delta_M}) + N_H(b, M_{HM}\xi(M_{H}))}{2}\right]
-\end{equation}
-
-Which can be expressed as:
+We define the environment of a emitter halo as:
 
 \begin{equation}
-\begin{split}
-\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H = \sum \limits_{0}^{1000}\Delta_{M} M_{\odot}  \dfrac{\rho_{g0} A(b) \sqrt{\pi} \Gamma(-\dfrac{1}{2} + \dfrac{3\beta}{2})}{4\Gamma{\dfrac{3\beta}{2}}} \\
-\left[ \left( \dfrac{1}{r_c(M_{HMin})^2} \right)^{-3\beta/2} (b^2 + r_c(M_{Hmin})^2)^{1/2 - 3\beta/2} \xi(M_{Hmax})+ \\
- \left( \dfrac{1}{r_c(M_{HMax})^2} \right)^{-3\beta/2}(b^2 + r_c(M_{Hmax})^2)^{1/2 - 3\beta/2}\xi(M_{Hmin}) \right] 
-\end{split}
+\Delta_3  = \bar{r}^3 \left( \dfrac{1}{r^3} - \dfrac{1}{\bar{r}^3} \right)
 \end{equation}
 
-The average column density of a ray traced in a volume of $1Mpc^3$ at redshift $z=6$ is then given by:
+Where if $\Delta_3 < 0 $ we say that the halo is in an overdense enviroment while
+if $\Delta_3 > 0 $ the halo is in an underdense environment.
 
-\begin{equation}
-<N_H> = 4 \rho_{g,0}A\int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy N_H(b) db = 1.68\times 10^{-42} \dfrac{g}{cm^3}
-\end{equation}
+\section{Results}
 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../figures/NHI.png}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{../figures/NHIvsD3.png}
+\end{figure}
 
 \end{document}
