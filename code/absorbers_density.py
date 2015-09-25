@@ -8,7 +8,7 @@ from scipy.integrate import quad
 
 
 warnings.simplefilter('ignore')
-sys.stderr.write("Usage: " + sys.argv[0] + " test.txt 10000 1(Number of random halos) 1(Number of random directions) 3(Number of nearest neighboors: env)\n")
+sys.stderr.write("Usage: " + sys.argv[0] + " catalogue.txt 10000 1(Number of random halos) 1(Number of random directions) 3(Number of nearest neighboors: env)\n")
 
 
 
@@ -23,7 +23,7 @@ env = int(sys.argv[5])
 # N = number of emmiters
 # M = number of traced rays in a radom direction
 
-halos = np.loadtxt("../../" + data)
+halos = np.loadtxt("../data/" + data)
 h = 0.7
 ids = halos[:,0]
 x = halos[:,1] 
@@ -231,6 +231,7 @@ def tvir(M, z):
 
 idsh, x_hh, y_hh, z_hh, D3_mean = host_halos(M, x, y, z, ids)
 
+print len(idsh)
 print "#emmiter ID, Delta3. Kpc, Total NH(1/cm2), NHI(1/cm2)"
 
 for i in range(N):
@@ -238,9 +239,14 @@ for i in range(N):
 	x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, P, x, y, z, R, M, ids)
 	NHT = []
 	NHI = []
+        
+        
 	for j in range(K):
-		x_out, y_out, z_out = random_direction(x_in, y_in, z_in, P)
+                x_out, y_out, z_out = random_direction(x_in, y_in, z_in, P)
 		babs, xabs, yabs, zabs, R_abs, M_abs, ids_abs = impact_parameter(ids_cube, x_cube, y_cube, z_cube, P, x_in, y_in, z_in, R_cube, M_cube, x_out , y_out, z_out)
+	        #for k in range(len(xabs)):
+                #rint D_env, len(xabs), j 
+                
 		NH = nh(R_abs, babs)
 		A = np.zeros(len(NH))
 		B = np.zeros(len(NH))
@@ -253,8 +259,8 @@ for i in range(N):
     			E[k] = Eta(A[k], B[k], C[k])
 			#rint E[k], A[k], B[k], C[k], NH[k], E[k]*NH[k]
 			#print E[k]
-		# Some times photons dont interact with halos
-		if (NH.sum() > 0):
+		# Some times Lya photons dont find any halos
+		#f (NH.sum() > 0):
 			NHT.append(NH.sum())
 			NHI.append(np.sum(E*NH))
 
