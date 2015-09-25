@@ -190,7 +190,10 @@ def nh(rvir, B):
     A = -0.178*b + 0.982
     beta = 0.9*b
     r_c =  rvir / c 
-    NH = (np.sqrt(np.pi)*(1/r_c**2)**(-3*beta/2.) * (B**2+ r_c**2)**(1/2. - 3*beta/2.) * gamma(-0.5 + 3*beta/2.) )/(2*gamma(3*beta/2.))
+    if len(B)==0:
+	NH = np.zeros(1)
+    else:
+	NH = (np.sqrt(np.pi)*(1/r_c**2)**(-3*beta/2.) * (B**2+ r_c**2)**(1/2. - 3*beta/2.) * gamma(-0.5 + 3*beta/2.) )/(2*gamma(3*beta/2.))
     return A*NH*rho/mp
 
 
@@ -231,7 +234,7 @@ def tvir(M, z):
 
 idsh, x_hh, y_hh, z_hh, D3_mean = host_halos(M, x, y, z, ids)
 
-print len(idsh)
+#print 'hosthalos'
 print "#emmiter ID, Delta3. Kpc, Total NH(1/cm2), NHI(1/cm2)"
 
 for i in range(N):
@@ -239,22 +242,25 @@ for i in range(N):
 	x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, P, x, y, z, R, M, ids)
 	NHT = []
 	NHI = []
-        
+        #print 'for one emitter'
         
 	for j in range(K):
                 x_out, y_out, z_out = random_direction(x_in, y_in, z_in, P)
 		babs, xabs, yabs, zabs, R_abs, M_abs, ids_abs = impact_parameter(ids_cube, x_cube, y_cube, z_cube, P, x_in, y_in, z_in, R_cube, M_cube, x_out , y_out, z_out)
 	        #for k in range(len(xabs)):
                 #rint D_env, len(xabs), j 
-                
+                 
 		NH = nh(R_abs, babs)
-		A = np.zeros(len(NH))
-		B = np.zeros(len(NH))
-		C = np.zeros(len(NH))
-  		E = np.zeros(len(NH))
-		T = tvir(M_abs*1e10, Z)
-				
-		for k in range(len(A)):
+                if (len(NH==1) & (NH[0]==0)):
+                   NHT.append(0)
+                   NHI.append(0)
+		else:
+		    A = np.zeros(len(NH))
+		    B = np.zeros(len(NH))
+		    C = np.zeros(len(NH))
+  		    E = np.zeros(len(NH))
+		    T = tvir(M_abs*1e10, Z)
+		    for k in range(len(A)):
 			A[k], B[k], C[k] = ABC(T[k], GUVB, NH[k], NSSH )
     			E[k] = Eta(A[k], B[k], C[k])
 			#rint E[k], A[k], B[k], C[k], NH[k], E[k]*NH[k]
@@ -263,7 +269,7 @@ for i in range(N):
 		#f (NH.sum() > 0):
 			NHT.append(NH.sum())
 			NHI.append(np.sum(E*NH))
-
+                        #print 'for one absorber'
 	for i in range(len(NHT)):
 		print  int(id_in), D_env, NHT[i], NHI[i]
 	        
