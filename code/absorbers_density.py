@@ -54,13 +54,26 @@ def host_halos(M, x, y, z, ids):
     for i in range(len(M_hh)):
 	D = []
 	for j in range(len(M_hh)):
-		dist  = np.sqrt( (x_hh[i] - x_hh[j])**2 + (y_hh[i]-y_hh[j])**2 + (z_hh[i] - z_hh[j])**2  )
-		D.append(dist)
+		if i!=j:
+			dist  = np.sqrt( (x_hh[i] - x_hh[j])**2 + (y_hh[i]-y_hh[j])**2 + (z_hh[i] - z_hh[j])**2  )
+			D.append(dist)
 	D3 = np.sort(D)
 	D3_mean.append(D3[2])
     return id_hh, x_hh, y_hh, z_hh, np.mean(D3_mean)
 
 # Finding a random emmiter halo and its environment \Delta_3:
+
+def environment(x_h, y_h, z_h, x, y, z, D3):
+    D = []
+    for i in range(len(x)):
+        d = np.sqrt((x_h-x[i])**2 + (y_h-y[i])**2 + (z_h-z[i])**2)
+        D.append(d)
+    Dist = np.sort(D)
+    r3 = Dist[2]
+    delta3 = D3**3 * (1/(r3**3) - 1/(D3**3))
+    return  delta3
+
+
 
 def random_halo(id_hh, x, y, z, env, D3):
     N = len(id_hh)
@@ -233,7 +246,11 @@ def tvir(M, z):
 # -----------------------------------------------------------------------------------------
 
 idsh, x_hh, y_hh, z_hh, D3_mean = host_halos(M, x, y, z, ids)
+for i in range(len(idsh)):
+	d3 = environment(x_hh, y_hh, z_hh, x_hh[i], y_hh[i], z_hh[i], D3_mean)
+        print d3
 
+"""
 #print 'hosthalos'
 print "#emmiter ID, Delta3. Kpc, Total NH(1/cm2), NHI(1/cm2)"
 
@@ -273,4 +290,4 @@ for i in range(N):
 	for i in range(len(NHT)):
 		print  int(id_in), D_env, NHT[i], NHI[i]
 	        
-
+"""
