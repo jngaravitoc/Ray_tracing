@@ -3,12 +3,15 @@ import sys
 import warnings
 from scipy.special import gamma
 from scipy.integrate import quad
+from sklearn.neighbors import KDTree
 #from scipy import integrate
 
 
-
-warnings.simplefilter('ignore')
-sys.stderr.write("Usage: " + sys.argv[0] + " catalogue.txt 10000 1(Number of random halos) 1(Number of random directions) 3(Number of nearest neighboors: env)\n")
+if len(sys.argv)<6:
+    warnings.simplefilter('ignore')
+    sys.stderr.write("Usage: " + sys.argv[0] + " catalogue.txt"\
+                     " 10000(period) 1(Number of random halos) 1(Number "\
+                     "of random directions) 3(Number of nearest neighbors: env)\n")
 
 
 
@@ -26,11 +29,11 @@ env = int(sys.argv[5])
 halos = np.loadtxt("../data/" + data)
 h = 0.7
 ids = halos[:,0]
-x = halos[:,1] 
-y = halos[:,2] 
-z = halos[:,3] 
+x = halos[:,1]
+y = halos[:,2]
+z = halos[:,3]
 M = halos[:,4]
-R = halos[:,5] 
+R = halos[:,5]
 
 NSSH = 4.0E-3 # See table 2 of Rahmati et al 2013
 GUVB = 4.5E-13 # See table 2 of Rahmati et al 2013
@@ -41,25 +44,33 @@ Z = 6.0
 
 # +++++++++++++++++++++++++++++++++++++++++++++ Ray Tracing +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# Finding halos in a catalogue for a mass between 7^10 - 2^11 Msun
+# Finding halos in a mass range between 7^10 - 2^11 Msun
 
 def host_halos(M, x, y, z, ids):
-    host_halo = np.where( (M<20) & (M>7))
+    host_halo = np.where((M<20) & (M>7))[0]
     M_hh = M[host_halo]
     x_hh = x[host_halo]
     y_hh = y[host_halo]
     z_hh = z[host_halo]
     id_hh = ids[host_halo]
-    D3_mean = []
-    for i in range(len(M_hh)):
-	D = []
-	for j in range(len(M_hh)):
-		if i!=j:
-			dist  = np.sqrt( (x_hh[i] - x_hh[j])**2 + (y_hh[i]-y_hh[j])**2 + (z_hh[i] - z_hh[j])**2  )
-			D.append(dist)
-	D3 = np.sort(D)
-	D3_mean.append(D3[2])
-    return id_hh, x_hh, y_hh, z_hh, np.mean(D3_mean)
+    r3 = []
+    for i in range(len(x_hh)):
+        D = np.array([x_hh, y_hh, z_hh])
+        D = D.T
+        tree = KDTree(D, leaf_size=2500)  
+        dist, ind = tree.query(D[i], k=4)
+        r3.append(max(dist))
+    
+    #D3_mean = []
+    #for i in range(len(M_hh)):
+    #    D = []
+    #    for j in range(len(M_hh)):
+    #        if i!=j:
+    #            dist = np.sqrt((x_hh[i] - x_hh[j])**2 + (y_hh[i]-y_hh[j])**2 + (z_hh[i] - z_hh[j])**2)
+    #            D.append(dist)
+    #D3 = np.sort(D)
+    #D3_mean.append(D3[2])
+    return id_hh, x_hh, y_hh, z_hh, np.mean(r3)
 
 # Finding a random emmiter halo and its environment \Delta_3:
 
@@ -70,10 +81,8 @@ def environment(x_h, y_h, z_h, x, y, z, D3):
         D.append(d)
     Dist = np.sort(D)
     r3 = Dist[2]
-    delta3 = D3**3 * (1/(r3**3) - 1/(D3**3))
+    delta3 = D3**3.0 * (1.0/(r3**3.0) - 1.0/(D3**3.0))
     return  delta3
-
-
 
 def random_halo(id_hh, x, y, z, env, D3):
     N = len(id_hh)
@@ -84,11 +93,11 @@ def random_halo(id_hh, x, y, z, env, D3):
     z_h = z[ran_halo]
     D = []
     for i in range(len(x)):
-    	d = np.sqrt((x_h-x[i])**2 + (y_h-y[i])**2 + (z_h-z[i])**2)
-	D.append(d)
+        d = np.sqrt((x_h-x[i])**2 + (y_h-y[i])**2 + (z_h-z[i])**2)
+    D.append(d)
     Dist = np.sort(D)
     r3 = Dist[2]
-    delta3 = D3**3 * (1/(r3**3) - 1/(D3**3))   
+    delta3 = D3**3.0 + (1/(r3**3.0) - 1/(D3**3.0))
     return x_h, y_h, z_h, id_h,  delta3
 
 # Selecting a cube around the emmiter galaxy!
@@ -101,14 +110,13 @@ def selecting_halos(x_in, y_in, z_in, r, x, y, z, R, M, ids):
     z_max = z_in + r
     z_min = z_in - r
     cube = np.where( (x < x_max) & (x > x_min) & ( y < y_max )  & ( y > y_min) & (z < z_max ) & (z > z_min))
-    
+
     x_cube = x[cube]
     y_cube = y[cube]
     z_cube = z[cube]
     R_cube = R[cube]
     M_cube = M[cube]
     id_cube = ids[cube]
-      
     return x_cube, y_cube, z_cube, R_cube, M_cube, id_cube
 
 # Setting a random direction
@@ -125,15 +133,15 @@ def random_direction(x, y, z, r):
     z_out = z + z_end
     return x_out, y_out, z_out
 
-#Computing the impact parameter of the halos to indentify the abosorbers 
+#Computing the impact parameter of the halos to identify the absorbers
 
 def impact_parameter(id_cube, x, y, z, L, x_in, y_in, z_in, R, M, x_out, y_out, z_out):
     d = np.sqrt((x - x_in)**2 + (y - y_in)**2 + (z - z_in)**2)
-    dot_product = (x-x_in ) * (x_out - x_in) + (y -y_in)*(y_out - y_in) + (z - z_in)* (z_out - z_in)
+    dot_product = (x-x_in) * (x_out - x_in) + (y -y_in)*(y_out - y_in) + (z - z_in)* (z_out - z_in)
     a_mag = L
     b_mag = d
     costheta = dot_product / (a_mag * b_mag)
-    theta = np.arccos(costheta) 
+    theta = np.arccos(costheta)
     b = np.sin(theta)*d
     absorbers = np.where( (b<R) & (dot_product>0))
     b_abs = b[absorbers]
@@ -143,13 +151,13 @@ def impact_parameter(id_cube, x, y, z, L, x_in, y_in, z_in, R, M, x_out, y_out, 
     R_abs = R[absorbers]
     M_abs = M[absorbers]
     id_abs = id_cube[absorbers]
-    Vol = 4 / 3. * np.pi * R_abs**3
+    Vol = 4.0 / 3. * np.pi * R_abs**3.0
     rho =  M_abs / Vol
     return b_abs, x_abs, y_abs, z_abs, R_abs, M_abs, id_abs
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#                                                   Gas Density 
+#                                                   Gas Density
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 def H(z, Omega0, H_0):
@@ -161,8 +169,7 @@ def Omega_z(z,Omega0, H_0):
 
 def model(x):
     b = 0.7
-    return x**2 * ( (1+x)**(27*b/(2.*x)) )
-
+    return x**2 * ((1+x)**(27*b/(2.*x)))
 
 def integral(c):
     x = np.linspace(0, c, 100)
@@ -175,13 +182,13 @@ def rho_g0(zform): #g/cm3
     Omega_m = 0.32
     Omega_b = 0.022/(0.67**2)
     H_0 = 2.19E-18 #1/s
-    G = 6.67E-8 # 
+    G = 6.67E-8 #
     rho_c = 3*H_0**2 / (8.*np.pi*G)
     c = 3.75
-    #zform = 6.
+    #zform = 6.0
     d_c = 3000.0 * Omega_m * (1 + zform)**3 # Check this d_c
     #d_c = 200/3. * (c**3 / (log(1 + c) - c/(1+c)))
-    return ( ( (f_gas * d_c * rho_c * Omega_b) / Omega_m ) * np.exp(27. * b / 2.) * (np.log(1+c) - c/(1+c)) )  /  integral(c)
+    return (((f_gas * d_c * rho_c * Omega_b) / Omega_m) * np.exp(27. * b / 2.) * (np.log(1+c) - c/(1+c)))  /  integral(c)
 
 # see eq 10 of the document
 def rho(r, z):
@@ -189,8 +196,8 @@ def rho(r, z):
     r_s = r_vir/c
     mp =  1.67262158E-24
     rrho = rho_g0(z) * e**(-27*b/2.) * (1 + (r/r_s))**(27*b/(2*r/r_s))
-    nh = rrho / mp 
-    return rrho, nh 
+    nh = rrho / mp
+    return rrho, nh
 
 def nh(rvir, B):
     rho = rho_g0(6)#gm/cm3
@@ -202,13 +209,12 @@ def nh(rvir, B):
     b = 0.7
     A = -0.178*b + 0.982
     beta = 0.9*b
-    r_c =  rvir / c 
+    r_c =  rvir / c
     if len(B)==0:
-	NH = np.zeros(1)
+        NH = np.zeros(1)
     else:
-	NH = (np.sqrt(np.pi)*(1/r_c**2)**(-3*beta/2.) * (B**2+ r_c**2)**(1/2. - 3*beta/2.) * gamma(-0.5 + 3*beta/2.) )/(2*gamma(3*beta/2.))
+        NH = (np.sqrt(np.pi)*(1/r_c**2)**(-3*beta/2.) * (B**2+ r_c**2)**(1/2. - 3*beta/2.) * gamma(-0.5 + 3*beta/2.))/(2*gamma(3*beta/2.))
     return A*NH*rho/mp
-
 
 
 # --------------------------------------------------------------------------------------------------------
@@ -216,14 +222,14 @@ def nh(rvir, B):
 # -----------------------------------   NHI computation --------------------------------------------------
 
 def LamdaT(T): # cm3/s Equation A6, Rahmati et al 2013
-    return 1.17E-10 * T**(0.5) * np.exp(-157809/T) / ( 1 + np.sqrt(T/10**5))
+    return 1.17E-10 * T**(0.5) * np.exp(-157809/T) / (1 + np.sqrt(T/10**5))
 
 def alphaA(T): # cm3 / s Equation A3
     l = 315614/T
-    return 1.269E-13 * l**(1.503) / ( 1 + (l/0.522)**(0.47) )**1.923 
+    return 1.269E-13 * l**(1.503) / (1 + (l/0.522)**(0.47))**1.923
 
 def Gammaphot(GammaUVB, nh, NHSSH):
-    Gammap =  GammaUVB * ( 0.98 *  (  1 + ( nh  / NHSSH )**(1.64) )**(-2.28) + 0.22 * ( 1 + nh  / NSSH)**(-0.84) )
+    Gammap =  GammaUVB * (0.98 *  (1 + (nh  / NHSSH )**(1.64))**(-2.28) + 0.22 * (1 + nh  / NSSH)**(-0.84))
     return Gammap
 
 def ABC(T, G, nh, NSSH):
@@ -236,19 +242,21 @@ def ABC(T, G, nh, NSSH):
     return A, B, C
 
 def Eta(A, B, C):
-    eta = ( B - np.sqrt(B**2 - 4*A*C) ) / (2.0*A)
-    return eta 
+    eta = (B - np.sqrt(B**2 - 4*A*C)) / (2.0*A)
+    return eta
 
 def tvir(M, z):
-    T = 2554 * ( M / 1E6)**(2/3.) * ( (1 + z) / 31.0 )
+    T = 2554 * (M / 1E6)**(2/3.) * ((1 + z) / 31.0)
     return T
 
 # -----------------------------------------------------------------------------------------
 
 idsh, x_hh, y_hh, z_hh, D3_mean = host_halos(M, x, y, z, ids)
-for i in range(len(idsh)):
-	d3 = environment(x_hh, y_hh, z_hh, x_hh[i], y_hh[i], z_hh[i], D3_mean)
-        print d3
+for i in range(len(x_hh)):
+    print D3_mean
+#for i in range(len(idsh)):
+#d3 = environment(x_hh, y_hh, z_hh, x_hh[i], y_hh[i], z_hh[i], D3_mean)
+#        print d3
 
 """
 #print 'hosthalos'
