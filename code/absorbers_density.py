@@ -5,14 +5,13 @@ from scipy.special import gamma
 from scipy.integrate import quad
 from sklearn.neighbors import KDTree
 #from scipy import integrate
-
+warnings.simplefilter('ignore')
 
 if len(sys.argv)<6:
-    warnings.simplefilter('ignore')
     sys.stderr.write("Usage: " + sys.argv[0] + " catalogue.txt"\
                      " 10000(period) 1(Number of random halos) 1(Number "\
                      "of random directions) 3(Number of nearest neighbors: env)\n")
-
+    sys.exit('Error: Put all the input parameters')
 
 
 data = sys.argv[1]
@@ -45,6 +44,7 @@ Z = 6.0
 # +++++++++++++++++++++++++++++++++++++++++++++ Ray Tracing +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # Finding halos in a mass range between 7^10 - 2^11 Msun
+# and the mean distance to a 3rd neighbor r3
 
 def host_halos(M, x, y, z, ids):
     host_halo = np.where((M<20) & (M>7))[0]
@@ -54,52 +54,39 @@ def host_halos(M, x, y, z, ids):
     z_hh = z[host_halo]
     id_hh = ids[host_halo]
     r3 = []
+    D = np.array([x_hh, y_hh, z_hh])
+    D = D.T
+    tree = KDTree(D, leaf_size=20000)
     for i in range(len(x_hh)):
-        D = np.array([x_hh, y_hh, z_hh])
-        D = D.T
-        tree = KDTree(D, leaf_size=2500)  
         dist, ind = tree.query(D[i], k=4)
         r3.append(max(dist))
-    
-    #D3_mean = []
-    #for i in range(len(M_hh)):
-    #    D = []
-    #    for j in range(len(M_hh)):
-    #        if i!=j:
-    #            dist = np.sqrt((x_hh[i] - x_hh[j])**2 + (y_hh[i]-y_hh[j])**2 + (z_hh[i] - z_hh[j])**2)
-    #            D.append(dist)
-    #D3 = np.sort(D)
-    #D3_mean.append(D3[2])
     return id_hh, x_hh, y_hh, z_hh, np.mean(r3)
 
-# Finding a random emmiter halo and its environment \Delta_3:
+# Finding the environment \Delta_3 of a given halo:
 
 def environment(x_h, y_h, z_h, x, y, z, D3):
-    D = []
-    for i in range(len(x)):
-        d = np.sqrt((x_h-x[i])**2 + (y_h-y[i])**2 + (z_h-z[i])**2)
-        D.append(d)
-    Dist = np.sort(D)
-    r3 = Dist[2]
+    DD = np.array([x, y, z])
+    DD = DD.T
+    tree = KDTree(DD, leaf_size=20000)
+    index = np.where(x_h == x)[0]
+    dist, ind = tree.query(DD[index], k=4)
+    r3 = max(dist[0])
     delta3 = D3**3.0 * (1.0/(r3**3.0) - 1.0/(D3**3.0))
     return  delta3
 
-def random_halo(id_hh, x, y, z, env, D3):
+# Function that choose a random halo.
+
+def random_halo(id_hh, x, y, z, D3):
     N = len(id_hh)
     ran_halo = np.random.randint(0, N)
     id_h = id_hh[ran_halo]
     x_h = x[ran_halo]
     y_h = y[ran_halo]
     z_h = z[ran_halo]
-    D = []
-    for i in range(len(x)):
-        d = np.sqrt((x_h-x[i])**2 + (y_h-y[i])**2 + (z_h-z[i])**2)
-    D.append(d)
-    Dist = np.sort(D)
-    r3 = Dist[2]
-    delta3 = D3**3.0 + (1/(r3**3.0) - 1/(D3**3.0))
-    return x_h, y_h, z_h, id_h,  delta3
+    delta3 = environment(x_h, y_h, z_h, x, y, z, D3)
+    return x_h, y_h, z_h, id_h, delta3
 
+# Up to here check!!
 # Selecting a cube around the emmiter galaxy!
 
 def selecting_halos(x_in, y_in, z_in, r, x, y, z, R, M, ids):
@@ -109,8 +96,7 @@ def selecting_halos(x_in, y_in, z_in, r, x, y, z, R, M, ids):
     y_min = y_in - r
     z_max = z_in + r
     z_min = z_in - r
-    cube = np.where( (x < x_max) & (x > x_min) & ( y < y_max )  & ( y > y_min) & (z < z_max ) & (z > z_min))
-
+    cube = np.where((x < x_max) & (x > x_min) & (y < y_max)  & (y > y_min) & (z < z_max ) & (z > z_min))
     x_cube = x[cube]
     y_cube = y[cube]
     z_cube = z[cube]
@@ -252,21 +238,18 @@ def tvir(M, z):
 # -----------------------------------------------------------------------------------------
 
 idsh, x_hh, y_hh, z_hh, D3_mean = host_halos(M, x, y, z, ids)
-for i in range(len(x_hh)):
-    print D3_mean
-#for i in range(len(idsh)):
-#d3 = environment(x_hh, y_hh, z_hh, x_hh[i], y_hh[i], z_hh[i], D3_mean)
-#        print d3
+#print D3_mean
+#environment(x_hh[0], y_hh[0], z_hh[0], x_hh, y_hh, z_hh, D3_mean)
 
-"""
-#print 'hosthalos'
-print "#emmiter ID, Delta3. Kpc, Total NH(1/cm2), NHI(1/cm2)"
+#rint "#emmiter ID, Delta3. Kpc, Total NH(1/cm2), NHI(1/cm2)"
 
 for i in range(N):
-	x_in, y_in, z_in, id_in, D_env = random_halo(idsh, x_hh, y_hh, z_hh, env, D3_mean)
-	x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, P, x, y, z, R, M, ids)
-	NHT = []
-	NHI = []
+    x_in, y_in, z_in, id_in, D_env = random_halo(idsh, x_hh, y_hh, z_hh, D3_mean)
+    print D_env
+	#x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, P, x, y, z, R, M, ids)
+	#NHT = []
+	#NHI = []
+"""
         #print 'for one emitter'
         
 	for j in range(K):
