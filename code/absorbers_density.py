@@ -86,7 +86,6 @@ def random_halo(id_hh, x, y, z, D3):
     delta3 = environment(x_h, y_h, z_h, x, y, z, D3)
     return x_h, y_h, z_h, id_h, delta3
 
-# Up to here check!!
 # Selecting a cube around the emmiter galaxy!
 
 def selecting_halos(x_in, y_in, z_in, r, x, y, z, R, M, ids):
@@ -96,7 +95,7 @@ def selecting_halos(x_in, y_in, z_in, r, x, y, z, R, M, ids):
     y_min = y_in - r
     z_max = z_in + r
     z_min = z_in - r
-    cube = np.where((x < x_max) & (x > x_min) & (y < y_max)  & (y > y_min) & (z < z_max ) & (z > z_min))
+    cube = np.where((x<x_max) & (x>x_min) & (y<y_max) & (y>y_min) & (z<z_max) & (z>z_min))
     x_cube = x[cube]
     y_cube = y[cube]
     z_cube = z[cube]
@@ -109,7 +108,7 @@ def selecting_halos(x_in, y_in, z_in, r, x, y, z, R, M, ids):
 
 def random_direction(x, y, z, r):
     cos_ran = 2.0*np.random.random()-1.0
-    sin_ran = np.sqrt(1.0-cos_ran**2)
+    sin_ran = np.sqrt(1.0-cos_ran**2.0)
     phi_ran = 2.0*np.pi*np.random.random()
     x_end = r*sin_ran*np.cos(phi_ran)
     y_end = r*sin_ran*np.sin(phi_ran)
@@ -119,17 +118,22 @@ def random_direction(x, y, z, r):
     z_out = z + z_end
     return x_out, y_out, z_out
 
+#Up to here check
+
 #Computing the impact parameter of the halos to identify the absorbers
+# xout, yout, zout is the random direction of the ray. x_in, y_in,
+# z_in are the positions of the emitter halo. x, y, z, all the
+# possible abosorbers positions.
 
 def impact_parameter(id_cube, x, y, z, L, x_in, y_in, z_in, R, M, x_out, y_out, z_out):
-    d = np.sqrt((x - x_in)**2 + (y - y_in)**2 + (z - z_in)**2)
-    dot_product = (x-x_in) * (x_out - x_in) + (y -y_in)*(y_out - y_in) + (z - z_in)* (z_out - z_in)
+    d = np.sqrt((x-x_in)**2.0 + (y-y_in)**2.0 + (z-z_in)**2.0)
+    dot_product = (x-x_in)*(x_out-x_in) + (y-y_in)*(y_out-y_in) + (z-z_in)*(z_out-z_in)
     a_mag = L
     b_mag = d
     costheta = dot_product / (a_mag * b_mag)
     theta = np.arccos(costheta)
     b = np.sin(theta)*d
-    absorbers = np.where( (b<R) & (dot_product>0))
+    absorbers = np.where((b<R) & (dot_product>0))
     b_abs = b[absorbers]
     x_abs = x[absorbers]
     y_abs = y[absorbers]
@@ -137,7 +141,7 @@ def impact_parameter(id_cube, x, y, z, L, x_in, y_in, z_in, R, M, x_out, y_out, 
     R_abs = R[absorbers]
     M_abs = M[absorbers]
     id_abs = id_cube[absorbers]
-    Vol = 4.0 / 3. * np.pi * R_abs**3.0
+    Vol = 4.0 / 3.0 * np.pi * R_abs**3.0
     rho =  M_abs / Vol
     return b_abs, x_abs, y_abs, z_abs, R_abs, M_abs, id_abs
 
