@@ -1,13 +1,14 @@
 import numpy as np
+import matplotlib.pyplot as plt 
 import sys
 import warnings
 from scipy.special import gamma
 from scipy.integrate import quad
 from sklearn.neighbors import KDTree
-#from scipy import integrate
+
 warnings.simplefilter('ignore')
 
-if len(sys.argv)<6:
+if len(sys.argv)<2:
     sys.stderr.write("Usage: " + sys.argv[0] + " catalogue.txt"\
                      " 10000(period) 1(Number of random halos) 1(Number "\
                      "of random directions) 3(Number of nearest neighbors: env)\n")
@@ -15,10 +16,10 @@ if len(sys.argv)<6:
 
 
 data = sys.argv[1]
-P = float(sys.argv[2])
-N = int(sys.argv[3])
-K = int(sys.argv[4])
-env = int(sys.argv[5])
+#P = float(sys.argv[2])
+#N = int(sys.argv[3])
+#K = int(sys.argv[4])
+#env = int(sys.argv[5])
 
 
 # P = ray length
@@ -247,12 +248,20 @@ idsh, x_hh, y_hh, z_hh, D3_mean = host_halos(M, x, y, z, ids)
 
 #rint "#emmiter ID, Delta3. Kpc, Total NH(1/cm2), NHI(1/cm2)"
 
-for i in range(N):
-    x_in, y_in, z_in, id_in, D_env = random_halo(idsh, x_hh, y_hh, z_hh, D3_mean)
-    print D_env
-	#x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, P, x, y, z, R, M, ids)
-	#NHT = []
-	#NHI = []
+x_in, y_in, z_in, id_in, D_env = random_halo(idsh, x_hh, y_hh, z_hh, D3_mean)
+#print D_env
+x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, 10000, x, y, z, R, M, ids)
+x_out, y_out, z_out = random_direction(x_in, y_in, z_in, 10000.0)
+
+#plt.scatter(x, y, s=0.1, c='k')
+#plt.scatter(x_hh, y_hh, s=5, c='k')
+plt.scatter(x_cube, y_cube, s=1, c='g')
+plt.scatter(x_in, y_in, s=40, c='b')
+plt.scatter(x_out, y_out, s=60, c='r')
+plt.show()
+
+    #NHT = []
+    #NHI = []
 """
         #print 'for one emitter'
         
