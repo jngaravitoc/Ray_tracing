@@ -1,9 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt 
-import sys
-import warnings
-from scipy.special import gamma
-from scipy.integrate import quad
 from sklearn.neighbors import KDTree
 
 
