@@ -60,56 +60,68 @@ In order to compute $\rho_{g,0}$ we used Eq.14 in that paper:
 \rho_{g0} = \dfrac{f_{gas}\Omega_{b}\rho_{c0}\delta_{c}}{\Omega_0}e^{27b/2} \left [ Ln(1+c) - \dfrac{c}{1+c}  \right ] \left [ \int_0^c x^2(1+x)^{27b/2x} dx \right ]
 \end{equation}
 
-As an example for a DM  halo of $M = 1E12 M_{\odot}$ at $z=2$ and a concetrarion parameter of $c=3.75$
-the gas profile is shown in Fig. \ref{fig:gp}
+As an example for a dark matter halo of $M_{vir} = 1E12 M_{\odot}$ at
+$z=2$ with $c=3.75$. $\rho_{g,0}=1.37\times10^{-25} g/cm^{-3}$. The
+density profile is shown in Fig. \ref{fig:gp}
 
-\begin{figure}\label{fig:gp}
+\begin{figure}
 \centering
 \includegraphics[scale=0.7]{../figures/gasprofile.png}
-\caption{Gas density profile for a DM  halo of $M = 1E12 M_{\odot}$ at $z=2$ and a concetrarion parameter of $c=3.75$}
-\end{figure} 
+\caption{Gas density profile for a DM halo of $M_{vir} = 1E12
+M_{\odot}$ at $z=2$ with $c=3.75$ \label{fig:gp}}
+\end{figure}.
 
 
 \section{Column density derivation:}\label{sec:NH}
 
-In order to compute the column density of the gas profiles, we first
-make an integral over the $z$ axys of the gas profile to get $N_{H}$i.e:
+The column density $N_{H}$ of the gas is:
 
 \begin{equation}
 N_{H} = \int \limits_{-\infty}^{\infty}\rho_g(r)dz
 \end{equation}
 
-Where $r^2 = z^2 + b'^2$ and $b'$ is the impact parameter.
-Changing variables from $z$ to $r$ we get:
+Where $r^2 = z^2 + b'^2$ and $b'$ is the impact parameter (here z
+should not be confused with the redshift).
+Which in terms of $r$ is:
 
 \begin{equation}
-N_{H} = \rho_{g0}A \int \limits_{-\infty}^{\infty} \dfrac{dz}{\left 
+N_{H} = \rho_{g0}A \int \limits_{-\infty}^{\infty} \dfrac{dz}{\left
 [ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}}
 = \rho_{g0}A \int \limits_{b}^{\infty}\dfrac{r}{\sqrt{r^2 - b'^2}}\dfrac{dr}
-{\left [ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}} 
+{\left [ 1 + \left(\dfrac{r}{r_{c,eff}} \right)^2 \right]^{3\beta_{eff}/2}}
 \end{equation}
 
 The result of the integral is:
 
 \begin{equation}\label{eq:NH}
-N_{H} = \rho_{g0} A\dfrac{\sqrt{\pi} (\dfrac{1}{r_c(M_h)^2})^{-3\beta_{eff}(M_h) /2} (b'^2 + r_c(M_h)^2)^{1/2 - 3\beta_{eff}(M_h)/2} \Gamma(-1/2 + 3\beta_{eff}/2) }{2 \Gamma(\dfrac{3\beta_{eff}(M_h)}{2})}  
+N_{H} = \rho_{g0} A\dfrac{\sqrt{\pi} (\dfrac{1}{r_c(M_h)^2})^{-3\beta_{eff}(M_h) /2} (b'^2 + r_c(M_h)^2)^{1/2 - 3\beta_{eff}(M_h)/2} \Gamma(-1/2 + 3\beta_{eff}/2) }{2 \Gamma(\dfrac{3\beta_{eff}(M_h)}{2})}
 \end{equation}
 
-The $N_H$ for all the halo masses and for all the impact parameters would
-be defined as:
+
+Figure \ref{fig:NHb} shows the dependence of the column density $N_H$
+for different impact parameters $b'$ and different halo concentration.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{../code/env/NH-b.png}
+\caption{Column density values for different values of the impact
+parameter and for different halo concentrations.\label{fig:NHb}}
+\end{figure}
+
+The average column density $N_H$ of all the halos at all the possible
+impact parameters is:
 
 \begin{equation}\label{eq:integral}
-<N_H> = 4 \int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy \int 
-\limits_{M_{Hmin}}^{M_{Hmax}} N_H(b, M_H)\xi(M_H)dM_H  
+<N_H> = 4 \int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy \int
+\limits_{M_{Hmin}}^{M_{Hmax}} N_H(b, M_H)\xi(M_H)dM_H
 \end{equation}
 
-Where the impact paremeter $b'^2 = x^2  + y^2$ and $M_{Hmin} = 1\times 10^4 
+Where the impact paremeter $b'^2 = x^2  + y^2$ and $M_{Hmin} = 1\times 10^4
 M_{\odot}$ and $M_{Hmax} = 1\times 10^{12}M_{\odot}$. And $\xi(M_H)= \dfrac{dn}
 {dM_H}$. The dependence with the redshift is in the computation of $r_{vir}$ and
 in the mass function.
 
-In order to evaluate  Eq. \ref{eq:integral} we first make the integral over
-the mass using the trapezoid method as follows:
+To evaluate Eq.\ref{eq:integral} the integral over
+the mass using the trapezoid method is made:
 
 \begin{equation}
 \int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H =  \sum_{0}^{1000}\Delta_M \left[ \dfrac{N_H(b, M_{H}+\Delta_M) \xi(M_{H + \Delta_M}) + N_H(b, M_{HM}\xi(M_{H}))}{2}\right]
@@ -121,7 +133,7 @@ Which can be expressed as:
 \begin{split}
 \int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H = \sum \limits_{0}^{1000}\Delta_{M} M_{\odot}  \dfrac{\rho_{g0} A(b) \sqrt{\pi} \Gamma(-\dfrac{1}{2} + \dfrac{3\beta}{2})}{4\Gamma{\dfrac{3\beta}{2}}} \\
 \left[ \left( \dfrac{1}{r_c(M_{HMin})^2} \right)^{-3\beta/2} (b^2 + r_c(M_{Hmin})^2)^{1/2 - 3\beta/2} \xi(M_{Hmax})+ \\
- \left( \dfrac{1}{r_c(M_{HMax})^2} \right)^{-3\beta/2}(b^2 + r_c(M_{Hmax})^2)^{1/2 - 3\beta/2}\xi(M_{Hmin}) \right] 
+ \left( \dfrac{1}{r_c(M_{HMax})^2} \right)^{-3\beta/2}(b^2 +r_c(M_{Hmax})^2)^{1/2 - 3\beta/2}\xi(M_{Hmin}) \right]
 \end{split}
 \end{equation}
 
@@ -134,14 +146,17 @@ The average column density of a ray traced in a volume of $1Mpc^3$ at redshift $
 
 \section{Neutral Hydrogen fraction $\eta$:}\label{sec:eta}
 
-Following Rahmati et al 2013, we compute de neutral hydrogen fraction $\eta = n_{HI} / n_H$. We follow
-the procedure implemented in the Appendix A in that paper.\\
+To derive the neutral hydrogen fraction as a function of $n_H$ and the
+temperature we follow Rahmati et al 2013. Here they assume ionization equilibrium.
+
+The neutral hydrogen fraction $\eta = n_{HI} / n_H$
+is defined as:\\
 
 \begin{equation}\label{eq:eta}
 \eta = \dfrac{B - \sqrt{B^2 - 4AC}}{2A}
 \end{equation}
 
-Where $A$ , $B$ and $C$ are defined as: 
+Where $A$ , $B$ and $C$ are defined as:
 
 \begin{equation}
 \begin{split}
@@ -151,7 +166,8 @@ C = \alpha_A
 \end{split}
 \end{equation}
 
-where $\Lambda_T$, $\alpha_A$ and $\Gamma_{Phot}$ are defined as:
+Where $\Lambda_T$, $\alpha_A$ (Case A recombination rate) and
+$\Gamma_{Phot}$ (Photoionization rate) are defined as:
 
 \begin{equation}
 \Lambda_T = 1.1.7 \times 10 ^{-10} \dfrac{T^{1/2} exp(-157809/T)}{1 + \sqrt(T/10^5)} cm^3 s^{-1}
@@ -162,55 +178,47 @@ where $\Lambda_T$, $\alpha_A$ and $\Gamma_{Phot}$ are defined as:
 \alpha_A = 1.269 \times 10 ^{-13} \dfrac{\lambda^{1.503}}{(1 + (\lambda / 0.522)^{0.47} )^{1.923}} cm^{3} s^{-1}
 \end{equation}
 
-where $\lambda = 315614 / T$. 
+where $\lambda = 315614 / T$.
 
 \begin{equation}
-\Gamma_{Phot} = \Gamma_{UVB} \left(  0.98\left[ 1 + \left( \dfrac{n_H}{n_{H, SSh}} \right)^{1.64}  \right]^{-2.28} + 0.02 \left[ 1 + \dfrac{n_H}{n_{H,SSh}} \right]^{-0.84}   \right) 
+\Gamma_{Phot} = \Gamma_{UVB} \left(  0.98\left[ 1 + \left( \dfrac{n_H}{n_{H, SSh}} \right)^{1.64}  \right]^{-2.28} + 0.02 \left[ 1 + \dfrac{n_H}{n_{H,SSh}} \right]^{-0.84}   \right)
 \end{equation}
 
-The up of Fig.\ref{fig:eta} shows how neutral Hydrogen fraction changes for diferent hydrogen densities, 
-for different Halo Mass.
-While the bottom figure shows the bahaviour of $\eta$ as a function of the temperature $T$. The blue 
-line is for a Hydrogen density $n_H = 0.01 cm^{-3}$ which is above the selfshielding density limit, 
-while the black line is for $n_H  = 0.001 cm^{-3}$.
+Fig.\ref{fig:eta} shows the dependence of the neutral Hydrogen
+fraction on the hydrogen density $n_H$ and temperature. Left panel
+shows the dependence with $n_H$ for different Halo mass. Right panel
+shows the dependence with temperature $T$, The blue
+line is for a Hydrogen density $n_H = 0.01 cm^{-3}$
+which is above the self-shielding density limit, while the black line is for $n_H  = 0.001 cm^{-3}$.
 
-\begin{figure}[H]\label{fig:eta}
+\begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{../figures/etavsnh.png}
-\includegraphics[scale=0.7]{../figures/etavsT.png}
-\caption{(Up) }
+\includegraphics[scale=0.5]{../code/etavsnh.png}
+\includegraphics[scale=0.5]{../code/etavsT.png}
+\caption{(Up)\label{fig:eta}}
 \end{figure}
 
 \section{Neutral Hydrogen density profile}\label{sec:NHI}
 
-In ordert to study the effect of the environment in LAEs we are interested in the neutral Hydrogen. 
-To this aim we want to derive the neutral Hydrogen gas profile using Makino's profile alongside 
-the neutral hydrogen fraction derived in the previous section. 
+In order to study the effect of the environment on LAEs we are
+interested in the neutral Hydrogen column density.
+To this aim we want to derive the neutral Hydrogen gas profile using Makino's profile
+alongside the neutral hydrogen fraction derived in the previous section.
 
-The first step here is to find the Hydrogen density $n_H$ from the $\rho$ this is related by $n_H = \rho / m_p$, 
-this profile is shown in Fig.\ref{fig:nhvsr}.
+As an example we made this for a Halo of mass $M_{vir} = 1 \times
+10^{12} M_{\odot}$ at $z=2$ with $r_{vir}=106kpc$ and $T =2.4\times10^{6}K$.
+Left panel in figure\ref{fig:nhvsr} shows the Hydrogen density $n_H$ derived from the density $\rho$
+($n_H = \rho / m_p$). The neutral hydrogen fraction $\eta$ is shown in
+the middle panel. While the neutral Hydrogen profile is shown in panel
+right.
 
-\begin{figure}[H]\label{fig:nhvsr}
+\begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{../figures/nhvsr.png}
-\end{figure} 
-
-With this density $n_H$ we compute the neutral Hydrogen fraction $\eta$ as function of $r$, Fig.\ref{fig:etavsr}
-show the fraction of neutral Hydrogen inside a DM halo of mass $M=10^8 M_{\odot}$ at $z=6$ with $r_{vir} = 1.67 Kpc$.
-
-\begin{figure}[H]\label{fig:etavsr}
-\centering
-\includegraphics[scale=0.7]{../figures/etavsr.png}
+\includegraphics[scale=0.4]{../code/nhvsr.png}
+\includegraphics[scale=0.4]{../code/etavsr.png}
+\includegraphics[scale=0.4]{../code/nhivsr.png}
+\caption{\label{fig:nhvsr}}
 \end{figure}
-
-With this information we can compute the Neutral Hydrogen profile corresponding to this DM halo by multplying
-$n_{HI}(r) = \eta(r) n_{H}(r)$, this is shown in Fig.\ref{fig:nhivsr}.
-
-\begin{figure}[H]\label{fig:nhivsr}
-\centering
-\includegraphics[scale=0.7]{../figures/nhivsr.png}
-\end{figure}  
-
 
 \section{Numerical Approach}
 
