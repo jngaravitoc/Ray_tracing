@@ -7,10 +7,12 @@ import sys
 from astropy import constants
 from astropy import units as u
 import warnings
-from scipy.special import gamma
-from scipy.integrate import quad
-from sklearn.neighbors import KDTree
-
+#from scipy.special import gamma
+#from scipy.integrate import quad
+#from sklearn.neighbors import KDTree
+from neutral_h  import *
+from ray_tracing import *
+from density_profile import *
 warnings.simplefilter('ignore')
 
 if len(sys.argv)<2:
@@ -27,7 +29,7 @@ data = sys.argv[1]
 #env = int(sys.argv[5])
 
 
-# P = ray length
+P = 10000
 # N = number of emmiters
 # M = number of traced rays in a radom direction
 
@@ -44,22 +46,28 @@ def reading_data(data):
 
 ids, x, y, z, M, R = reading_data(data)
 ids_hh, x_hh, y_hh, z_hh, D3_mean = host_halos(M, x, y, z, ids)
-x_in, y_in, z_in, id_in, D_env = random_halo(idsh, x_hh, y_hh, z_hh, D3_mean)
-x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, 10000, x, y, z, R, M, ids)
-x_out, y_out, z_out = random_direction(x_in, y_in, z_in, 10000.0)
+x_in, y_in, z_in, id_in, D_env = random_halo(ids_hh, x_hh, y_hh, z_hh, D3_mean)
+x_cube, y_cube, z_cube, R_cube, M_cube, ids_cube = selecting_halos(x_in, y_in, z_in, P, x, y, z, R, M, ids)
+x_out, y_out, z_out = random_direction(x_in, y_in, z_in, P)
+babs, xabs, yabs, zabs, R_abs, M_abs, ids_abs = impact_parameter(ids_cube, x_cube, y_cube, z_cube, P, x_in, y_in,
+z_in, R_cube, M_cube, x_out, y_out, z_out)
+
+print D_env, len(babs)
+
 
 #plt.scatter(x, y, s=0.1, c='k')
 #plt.scatter(x_hh, y_hh, s=5, c='k')
-plt.scatter(x_cube, y_cube, s=1, c='g')
-plt.scatter(x_in, y_in, s=40, c='b')
-plt.scatter(x_out, y_out, s=60, c='r')
-plt.show()
+#plt.scatter(x_cube, y_cube, s=1, c='g')
+#plt.scatter(x_in, y_in, s=40, c='b')
+#plt.scatter(x_out, y_out, s=60, c='r')
+#plt.show()
 
     #NHT = []
     #NHI = []
-"""
+
         #print 'for one emitter'
         
+"""
 	for j in range(K):
                 x_out, y_out, z_out = random_direction(x_in, y_in, z_in, P)
 		babs, xabs, yabs, zabs, R_abs, M_abs, ids_abs = impact_parameter(ids_cube, x_cube, y_cube, z_cube, P, x_in, y_in, z_in, R_cube, M_cube, x_out , y_out, z_out)
