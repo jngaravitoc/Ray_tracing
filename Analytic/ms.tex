@@ -14,33 +14,33 @@
 \begin{document}
 \maketitle
 
-\section{Constants:}
+%\section{Constants:}
 
-In this section we define the constants used in this work.
+%In this section we define the constants used in this work.
 
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{c c c c}
-\hline
-Constant name & Symbol & Value & Units \\
-\hline
-\hline
-Boltzmann  & $k_B$ & $1.3806488\times 10^-{23}$ & $[J/K]$ \\ 
-Gravitational & $G$ & $6.67384\times 10^{-11}$ & $[\dfrac{m^3}{Kgs^2}]$\\
-Mean molecular weight &$\mu_n$ & $0.59$ & $-$ \\
-Proton mass & $m_p$ & $1.672621777\times 10^{-27}$ & [kg] \\
-Slope parameter & $\beta$ & $0.4$ & $-$ \\
-Matter density & $\Omega_m$ & $0.3089$ & $-$ \\ 
-Barions density & $\Omega_B$ & $ 0.0455102$ & $-$ \\
-Dark energy density & $\Omega_{\Lambda}$ & $0.6911$ & $-$ \\
-Spatial curvature density& $\Omega_{k} $ & $-0.0023$ & $-$ \\
-Hubble parameter & $H_0$ & $7.11449538303\times 10^{-41}$& $[1/s]$ \\
-Solar mass &  $M_{\odot} $ & $1.9891\times 10^{30}$  & [kg] \\ 
+%\begin{table}[H]
+%\begin{center}
+%\begin{tabular}{c c c c}
+%\hline
+%Constant name & Symbol & Value & Units \\
+%\hline
+%\hline
+%Boltzmann  & $k_B$ & $1.3806488\times 10^-{23}$ & $[J/K]$ \\ 
+%Gravitational & $G$ & $6.67384\times 10^{-11}$ & $[\dfrac{m^3}{Kgs^2}]$\\
+%Mean molecular weight &$\mu_n$ & $0.59$ & $-$ \\
+%Proton mass & $m_p$ & $1.672621777\times 10^{-27}$ & [kg] \\
+%Slope parameter & $\beta$ & $0.4$ & $-$ \\
+%Matter density & $\Omega_m$ & $0.3089$ & $-$ \\ 
+%Barions density & $\Omega_B$ & $ 0.0455102$ & $-$ \\
+%Dark energy density & $\Omega_{\Lambda}$ & $0.6911$ & $-$ \\
+%Spatial curvature density& $\Omega_{k} $ & $-0.0023$ & $-$ \\
+%Hubble parameter & $H_0$ & $7.11449538303\times 10^{-41}$& $[1/s]$ \\
+%Solar mass &  $M_{\odot} $ & $1.9891\times 10^{30}$  & [kg] \\ 
 %$m_p$
-\hline
-\end{tabular}
-\end{center}
-\end{table}
+%\hline
+%\end{tabular}
+%\end{center}
+%\end{table}
 
 \section{Gas density profile:}\label{sec:rho}
 
@@ -107,41 +107,41 @@ for different impact parameters $b'$ and different halo concentration.
 parameter and for different halo concentrations.\label{fig:NHb}}
 \end{figure}
 
-The average column density $N_H$ of all the halos at all the possible
-impact parameters is:
+%The average column density $N_H$ of all the halos at all the possible
+%impact parameters is:
 
-\begin{equation}\label{eq:integral}
-<N_H> = 4 \int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy \int
-\limits_{M_{Hmin}}^{M_{Hmax}} N_H(b, M_H)\xi(M_H)dM_H
-\end{equation}
+%\begin{equation}\label{eq:integral}
+%<N_H> = 4 \int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy \int
+%\limits_{M_{Hmin}}^{M_{Hmax}} N_H(b, M_H)\xi(M_H)dM_H
+%\end{equation}
 
-Where the impact paremeter $b'^2 = x^2  + y^2$ and $M_{Hmin} = 1\times 10^4
-M_{\odot}$ and $M_{Hmax} = 1\times 10^{12}M_{\odot}$. And $\xi(M_H)= \dfrac{dn}
-{dM_H}$. The dependence with the redshift is in the computation of $r_{vir}$ and
-in the mass function.
+%Where the impact paremeter $b'^2 = x^2  + y^2$ and $M_{Hmin} = 1\times 10^4
+%M_{\odot}$ and $M_{Hmax} = 1\times 10^{12}M_{\odot}$. And $\xi(M_H)= \dfrac{dn}
+%{dM_H}$. The dependence with the redshift is in the computation of $r_{vir}$ and
+%in the mass function.
 
-To evaluate Eq.\ref{eq:integral} the integral over
-the mass using the trapezoid method is made:
+%To evaluate Eq.\ref{eq:integral} the integral over
+%the mass using the trapezoid method is made:
 
-\begin{equation}
-\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H =  \sum_{0}^{1000}\Delta_M \left[ \dfrac{N_H(b, M_{H}+\Delta_M) \xi(M_{H + \Delta_M}) + N_H(b, M_{HM}\xi(M_{H}))}{2}\right]
-\end{equation}
+%\begin{equation}
+%\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H =  \sum_{0}^{1000}\Delta_M \left[ \dfrac{N_H(b, M_{H}+\Delta_M) \xi(M_{H + \Delta_M}) + N_H(b, M_{HM}\xi(M_{H}))}{2}\right]
+%\end{equation}
 
-Which can be expressed as:
+%Which can be expressed as:
 
-\begin{equation}
-\begin{split}
-\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H = \sum \limits_{0}^{1000}\Delta_{M} M_{\odot}  \dfrac{\rho_{g0} A(b) \sqrt{\pi} \Gamma(-\dfrac{1}{2} + \dfrac{3\beta}{2})}{4\Gamma{\dfrac{3\beta}{2}}} \\
-\left[ \left( \dfrac{1}{r_c(M_{HMin})^2} \right)^{-3\beta/2} (b^2 + r_c(M_{Hmin})^2)^{1/2 - 3\beta/2} \xi(M_{Hmax})+ \\
- \left( \dfrac{1}{r_c(M_{HMax})^2} \right)^{-3\beta/2}(b^2 +r_c(M_{Hmax})^2)^{1/2 - 3\beta/2}\xi(M_{Hmin}) \right]
-\end{split}
-\end{equation}
+%\begin{equation}
+%\begin{split}
+%\int \limits_{M_{HMin}}^{M_{HMax}} N_H(b, M_H)\xi(M_H)dM_H = \sum \limits_{0}^{1000}\Delta_{M} M_{\odot}  \dfrac{\rho_{g0} A(b) \sqrt{\pi} \Gamma(-\dfrac{1}{2} + \dfrac{3\beta}{2})}{4\Gamma{\dfrac{3\beta}{2}}} \\
+%\left[ \left( \dfrac{1}{r_c(M_{HMin})^2} \right)^{-3\beta/2} (b^2 + r_c(M_{Hmin})^2)^{1/2 - 3\beta/2} \xi(M_{Hmax})+ \\
+% \left( \dfrac{1}{r_c(M_{HMax})^2} \right)^{-3\beta/2}(b^2 +r_c(M_{Hmax})^2)^{1/2 - 3\beta/2}\xi(M_{Hmin}) \right]
+%\end{split}
+%\end{equation}
 
-The average column density of a ray traced in a volume of $1Mpc^3$ at redshift $z=6$ is then given by:
+%The average column density of a ray traced in a volume of $1Mpc^3$ at redshift $z=6$ is then given by:
 
-\begin{equation}
-<N_H> = 4 \rho_{g,0}A\int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy N_H(b) db = 1.68\times 10^{-42} \dfrac{g}{cm^3}
-\end{equation}
+%\begin{equation}
+%<N_H> = 4 \rho_{g,0}A\int \limits_0^{0.5} dx \int \limits_{0}^{0.5}dy N_H(b) db = 1.68\times 10^{-42} \dfrac{g}{cm^3}
+%\end{equation}
 
 
 \section{Neutral Hydrogen fraction $\eta$:}\label{sec:eta}
@@ -224,32 +224,46 @@ right.
 
 We use the results of the Dark Matter only simulation Illustris with the aim
 of studying how the environment affects the absorption of
-Ly$\alpha$ radiation at $z\sim6$. We chose emitters halos to be 
-those in a range of mass  $7 \times 10^{10} - 2 \times 10^{11}$, this 
+Ly$\alpha$ radiation at $z\sim6$. We chose emitters halos to be
+those in a range of mass  $7 \times 10^{10} - 2 \times 10^{11}$, this
 halos have different environments (\textbf{Make a plot of this}).
+
 We then trace rays of Ly$\alpha$ photons in random directions, and we derive
-the gas properties of those halos that interact with the ray 
-implementing the equations described in \S \ref{sec:rho}, 
-\S \ref{sec:NH},\S \ref{sec:eta}.\S \ref{sec:NHI}. Then we sum the column 
-density of every Ly$\alpha$ ray. In the following subsections we describe 
-these steps in detail.  
+the gas properties of those halos that interact with the ray
+implementing the equations described in \S \ref{sec:rho},
+\S \ref{sec:NH},\S \ref{sec:eta}.\S \ref{sec:NHI}. Then we sum the column
+density of every Ly$\alpha$ ray. In the following subsections we describe
+these steps in detail.
 
 \subsection{Dark Matter halo catalogue}
 
-We use the public available data from the Illustris simulation, in particular we use 
+We use the public available data from the Illustris simulation, in particular we use
 the Illustis1-dark catalogue. This is a simulation of $1820^3$ dark matter particles
-with a mass of $m_{DM}=6.3 \times 10^6 M_{\odot}$ in a box of $L=106.5 Mpc$. We use 
+with a mass of $m_{DM}=6.3 \times 10^6 M_{\odot}$ in a box of $L=106.5 Mpc$. We use
 the data of halos at $z = 6.01$.
+
+We select emitter galaxies in the range of $7 \times 10^{10} - 2 \times 10^{11}$.
+There are 1672 halos in this mass range in the simulation. These halos
+are in different environment, in order to quantify the environment we
+define $\Delta_3$ as:
+
+\begin{equation}
+\Delta_3  = \bar{r}^3 \left( \dfrac{1}{r^3} - \dfrac{1}{\bar{r}^3} \right)
+\end{equation}
+
+If $\Delta_3 < 0 $ the halo is in an over-dense environment while
+if $\Delta_3 > 0 $ the halo is in an under-dense environment.
+
+Left panel of figure \ref{fig:HalosEnv} shows the distribution of
+halo mass, the color shaded are corresponds to the emitters halo mass
+distribution. Right panel shows the halo mass against the
+environment parameter $\Delta_3$.
 
 \subsection{Ray tracing}
 
-We select emitter galaxies in the range of $7 \times 10^{10} - 2 \times 10^{11}$.
-There are N halos in this mass range in the simulation. All these halos
-are in different environments.
-
 After selecting randomly an emitter we follow the trajectory of a Ly$\alpha$ photon
 in a random direction and for ray length of $10 Mpc$. In $10 Mpc$ a Ly$\alpha$ would
-have a $\Delta_z$ of: 
+have a $\Delta_z$ of:
 
 
 We then compute the impact parameter $b$ between the ray and all the halos that could
@@ -266,26 +280,9 @@ We compute the density profiles of using Eq.\ref{eq:rhogr}, the
 we compute the column density using Eq.\ref{eq:NH}. Then we compute
 the fraction of neutral column density $n_{HI}$ using Eq.\ref{eq:eta}
 
-We define the environment of a emitter halo as:
 
-\begin{equation}
-\Delta_3  = \bar{r}^3 \left( \dfrac{1}{r^3} - \dfrac{1}{\bar{r}^3} \right)
-\end{equation}
-
-Where if $\Delta_3 < 0 $ we say that the halo is in an over-dense
-environment while
-if $\Delta_3 > 0 $ the halo is in an under-dense environment.
 
 \section{Results}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{../figures/NHI.png}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{../figures/NHIvsD3.png}
-\end{figure}
 
 \end{document}
