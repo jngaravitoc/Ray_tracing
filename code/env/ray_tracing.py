@@ -10,13 +10,13 @@ def host_halos(M, x, y, z, ids):
     z_hh = z[host_halo]
     id_hh = ids[host_halo]
     r3 = []
-    D = np.array([x_hh, y_hh, z_hh])
+    D = np.array([x, y, z])
     D = D.T
     tree = KDTree(D, leaf_size=20000)
     for i in range(len(x_hh)):
-        dist, ind = tree.query(D[i], k=4)
-        r3.append(max(dist))
-    return id_hh, x_hh, y_hh, z_hh, np.mean(r3)
+        dist, ind = tree.query(D[host_halo], k=4)
+        r3.append(max(dist[0]))
+    return id_hh, x_hh, y_hh, z_hh, np.mean(r3), M_hh
 
 # Finding the environment \Delta_3 of a given halo:
 
@@ -27,6 +27,7 @@ def environment(x_h, y_h, z_h, x, y, z, D3):
     index = np.where(x_h == x)[0]
     dist, ind = tree.query(DD[index], k=4)
     r3 = max(dist[0])
+    #print r3
     delta3 = D3**3.0 * (1.0/(r3**3.0) - 1.0/(D3**3.0))
     return  delta3
 
