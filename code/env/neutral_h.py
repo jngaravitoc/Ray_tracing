@@ -15,7 +15,8 @@ def alpha_a(t): # cm3 / s equation a3
     return 1.269E-13 * l**(1.503) / (1 + (l/0.522)**(0.47))**1.923
 
 def gammaphot(gammauvb, nh, nhssh):
-    gammap =  gammauvb*(0.98*(1.0+ (nh /nhssh)**(1.64))**(-2.28) + 0.22 * (1 + nh  / nssh)**(-0.84))
+    gammap =  gammauvb*(0.98*(1.0+ (nh /nhssh)**(1.64))**(-2.28) +
+0.02 * (1 + nh  / nhssh)**(-0.84))
     return gammap
 
 def abc(t, g, nh, nssh):
@@ -28,7 +29,9 @@ def abc(t, g, nh, nssh):
     return a, b, c
 
 def eta(a, b, c):
-    eta = (b - np.sqrt(b**2.0 - 4.0*a*c)) / (2.0*a)
+    eta = np.zeros(len(b))
+    for i in range(len(b)):
+        eta[i] = (b - np.sqrt(b**2.0 - 4.0*a*c)) / (2.0*a)
     return eta
 
 def tvir(m, z):
