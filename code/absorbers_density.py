@@ -128,7 +128,7 @@ def ABC(T, G, nh, NSSH):
     return A, B, C
 
 def Eta(A, B, C):
-    eta = (B - np.sqrt(B**2 - 4*A*C)) / (2.0*A)
+    eta = (B - np.sqrt(B**2 - 4.0*A*C)) / (2.0*A)
     return eta
 
 def tvir(M, z):

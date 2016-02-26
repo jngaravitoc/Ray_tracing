@@ -45,14 +45,14 @@
 \section{Gas density profile:}\label{sec:rho}
 
 Makino et al (1997) found an analytical expresion (Eq.8 in that paper) for the gas profile assuming that the gas
-is isothermal and it is inside a DM halo with a NFW profile. They argue that this equation it's well approximated by 
+is isothermal and it is inside a DM halo with a NFW profile. They argue that this equation it's well approximated by
 the following profile:
 
 \begin{equation}\label{eq:rhogr}
 \rho_g(r) =  \dfrac{\rho_{g,0}A}{\left[ 1 + \left(\dfrac{r}{r_{c,eff}}\right)^2 \right]^{3\beta_{eff}/2}}
 \end{equation}
 
-Where $A(b) = -0.178b + 0.982$ and $\beta_{eff} = 0.9 b$\\
+Where $A(b) = -0.178b + 0.982$, $\beta_{eff} = 0.9 b$ and $r_{c, eff}= 0.22 r_s$ ($r_s$ the scale length)\\
 
 In order to compute $\rho_{g,0}$ we used Eq.14 in that paper:
 
@@ -66,7 +66,7 @@ density profile is shown in Fig. \ref{fig:gp}
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{../figures/gasprofile.png}
+\includegraphics[scale=0.5]{../figures/gasprofile.eps}
 \caption{Gas density profile for a DM halo of $M_{vir} = 1E12
 M_{\odot}$ at $z=2$ with $c=3.75$ \label{fig:gp}}
 \end{figure}.
@@ -94,7 +94,7 @@ N_{H} = \rho_{g0}A \int \limits_{-\infty}^{\infty} \dfrac{dz}{\left
 The result of the integral is:
 
 \begin{equation}\label{eq:NH}
-N_{H} = \rho_{g0} A\dfrac{\sqrt{\pi} (\dfrac{1}{r_c(M_h)^2})^{-3\beta_{eff}(M_h) /2} (b'^2 + r_c(M_h)^2)^{1/2 - 3\beta_{eff}(M_h)/2} \Gamma(-1/2 + 3\beta_{eff}/2) }{2 \Gamma(\dfrac{3\beta_{eff}(M_h)}{2})}
+N_{H} = \rho_{g0} A\dfrac{\sqrt{\pi} (\dfrac{1}{r_{c,eff}(M_h)^2})^{-3\beta_{eff}(M_h) /2} (b'^2 + r_{c,eff}(M_h)^2)^{1/2 - 3\beta_{eff}(M_h)/2} \Gamma(-1/2 + 3\beta_{eff}/2) }{2 \Gamma(\dfrac{3\beta_{eff}(M_h)}{2})}
 \end{equation}
 
 
@@ -178,7 +178,7 @@ $\Gamma_{Phot}$ (Photoionization rate) are defined as:
 \alpha_A = 1.269 \times 10 ^{-13} \dfrac{\lambda^{1.503}}{(1 + (\lambda / 0.522)^{0.47} )^{1.923}} cm^{3} s^{-1}
 \end{equation}
 
-where $\lambda = 315614 / T$.
+Where $\lambda = 315614 / T$.
 
 \begin{equation}
 \Gamma_{Phot} = \Gamma_{UVB} \left(  0.98\left[ 1 + \left( \dfrac{n_H}{n_{H, SSh}} \right)^{1.64}  \right]^{-2.28} + 0.02 \left[ 1 + \dfrac{n_H}{n_{H,SSh}} \right]^{-0.84}   \right)
@@ -193,8 +193,8 @@ which is above the self-shielding density limit, while the black line is for $n_
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.5]{../code/etavsnh.png}
-\includegraphics[scale=0.5]{../code/etavsT.png}
+\includegraphics[scale=0.5]{../figures/nhvseta.eps}
+%\includegraphics[scale=0.5]{../code/etavsT.png}
 \caption{(Up)\label{fig:eta}}
 \end{figure}
 
@@ -205,8 +205,15 @@ interested in the neutral Hydrogen column density.
 To this aim we want to derive the neutral Hydrogen gas profile using Makino's profile
 alongside the neutral hydrogen fraction derived in the previous section.
 
+\begin{equation}
+N_H = 1.6 \times 10^{21} cm^{-2} n_H^{1/2}T_4^{1/2}\left(\dfrac{f_g}{0.17} \right)
+\end{equation}
+
+Where $T_4 = T/10^{4}K$ and $f_g =\Omega_b/ \Omega_m$.
+
 As an example we made this for a Halo of mass $M_{vir} = 1 \times
 10^{12} M_{\odot}$ at $z=2$ with $r_{vir}=106kpc$ and $T =2.4\times10^{6}K$.
+
 Left panel in figure\ref{fig:nhvsr} shows the Hydrogen density $n_H$ derived from the density $\rho$
 ($n_H = \rho / m_p$). The neutral hydrogen fraction $\eta$ is shown in
 the middle panel. While the neutral Hydrogen profile is shown in panel
@@ -226,7 +233,12 @@ We use the results of the Dark Matter only simulation Illustris with the aim
 of studying how the environment affects the absorption of
 Ly$\alpha$ radiation at $z\sim6$. We chose emitters halos to be
 those in a range of mass  $7 \times 10^{10} - 2 \times 10^{11}$, this
-halos have different environments (\textbf{Make a plot of this}).
+halos have different environments.
+
+%\begin{figure}
+%\includegraphics[scale=0.4]{../figures/}
+%\caption{\label{fig:D3mass}}
+%\end{figure}
 
 We then trace rays of Ly$\alpha$ photons in random directions, and we derive
 the gas properties of those halos that interact with the ray
