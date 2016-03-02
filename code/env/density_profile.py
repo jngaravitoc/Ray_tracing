@@ -35,7 +35,7 @@ def model(x):
 
 def integral(c):
     x = np.linspace(0, c, 100)
-    integral_scipy,err = quad(model, 0, c)
+    I,err = quad(model, 0, c)
     return I
 
 def rho_g0(zform, c): #g/cm3
