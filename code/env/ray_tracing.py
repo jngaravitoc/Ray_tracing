@@ -2,21 +2,22 @@ import numpy as np
 from sklearn.neighbors import KDTree
 
 
-def host_halos(M, x, y, z, ids):
+def host_halos(M, x, y, z, ids, R):
     host_halo = np.where((M<20) & (M>7))[0]
     M_hh = M[host_halo]
     x_hh = x[host_halo]
     y_hh = y[host_halo]
     z_hh = z[host_halo]
     id_hh = ids[host_halo]
+    R_hh = R[host_halo]
     r3 = []
-    D = np.array([x, y, z])
+    D = np.array([x_hh, y_hh, z_hh])
     D = D.T
     tree = KDTree(D, leaf_size=20000)
     for i in range(len(x_hh)):
-        dist, ind = tree.query(D[host_halo], k=4)
+        dist, ind = tree.query(D[i], k=6)
         r3.append(max(dist[0]))
-    return id_hh, x_hh, y_hh, z_hh, np.mean(r3), M_hh
+    return id_hh, x_hh, y_hh, z_hh, np.mean(r3), M_hh, R_hh
 
 # Finding the environment \Delta_3 of a given halo:
 
@@ -24,12 +25,12 @@ def environment(x_h, y_h, z_h, x, y, z, D3):
     DD = np.array([x, y, z])
     DD = DD.T
     tree = KDTree(DD, leaf_size=20000)
-    index = np.where(x_h == x)[0]
-    dist, ind = tree.query(DD[index], k=4)
+    index = np.where((x_h == x) & (y_h == y))[0]
+    dist, ind = tree.query(DD[index], k=6)
     r3 = max(dist[0])
     #print r3
     delta3 = D3**3.0 * (1.0/(r3**3.0) - 1.0/(D3**3.0))
-    return  delta3
+    return  delta3, r3
 
 # Function that choose a random halo.
 
@@ -46,22 +47,10 @@ def random_halo(id_hh, x, y, z, D3):
 # Selecting a cube around the emmiter galaxy!
 
 def selecting_halos(x_in, y_in, z_in, r, x, y, z, R, M, ids):
-    x_max = x_in + r
-    x_min = x_in - r
-    y_max = y_in + r
-    y_min = y_in - r
-    z_max = z_in + r
-    z_min = z_in - r
-    cube = np.where((x<x_max) & (x>x_min) & (y<y_max) & (y>y_min) & (z<z_max) & (z>z_min))
-    x_cube = x[cube]
-    y_cube = y[cube]
-    z_cube = z[cube]
-    R_cube = R[cube]
-    M_cube = M[cube]
-    id_cube = ids[cube]
-    return x_cube, y_cube, z_cube, R_cube, M_cube, id_cube
+    sphere = np.where(np.sqrt((x-x_in)**2.0 + (y-y_in)**2.0 + (z-z_in)**2.0) < r)[0]
+    return x[sphere], y[sphere], z[sphere], R[sphere], M[sphere], ids[sphere]
 
-# Setting a random direction
+#Setting a random direction
 
 def random_direction(x, y, z, r):
     cos_ran = 2.0*np.random.random()-1.0
