@@ -12,7 +12,7 @@ Omega_m = 0.32
 Omega_b = 0.0455102
 H_0 = 2.19E-18*u.Hz #1/s
 rho_c = 3.0*H_0**2.0 / (8.0*np.pi*G) # critical density
-cc = 3.75 # Concentration of the halo a z=6
+#cc = 3.75 # Concentration of the halo a z=6
 mp = const.m_p
 mp = mp.to(u.g)
 
@@ -35,7 +35,7 @@ def model(x):
 
 def integral(c):
     x = np.linspace(0, c, 100)
-    integral_scipy,err = quad(model, 0, c)
+    I,err = quad(model, 0, c)
     return I
 
 def rho_g0(zform, c): #g/cm3
